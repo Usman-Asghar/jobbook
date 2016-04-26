@@ -37,17 +37,15 @@ class Login extends CI_Controller {
 		{
 			$email = $this->input->post('email');
 			$pass = hash("SHA256", $this->input->post('password') . $this->config->item('encryption_key') );
-			$validated = $this->Common_Model->get_single_row(TBL_ADMIN,array('admin_email'=>$email,'admin_password'=>$pass));
+			$validated = $this->Common_Model->get_single_row(TBL_USERS,array('email'=>$email,'password'=>$pass));
 			if($validated){
 				$sess_array = array(
-						'admin_id' => $validated->admin_id,
-						'admin_name' => $validated->admin_fname .' '.$validated->admin_lname,
-						'admin_fname' => $validated->admin_fname,
-						'admin_lname' => $validated->admin_lname,
-						'admin_email' => $email,
-						'admin_sign' => $validated->admin_sign,
-						'region_id' => $validated->region_id,
-						'admin_logged_in' => true
+						'user_id' => $validated->user_id,
+						'user_name' => $validated->fname .' '.$validated->lname,
+						'user_fname' => $validated->fname,
+						'user_lname' => $validated->lname,
+						'user_email' => $email,
+						'user_logged_in' => true
 				);
 				$this->session->set_userdata($sess_array);
 			echo '1';

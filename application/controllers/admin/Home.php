@@ -24,10 +24,7 @@ class Home extends CI_Controller {
 	public function index()
 	{	
 		$this->load->library("pagination");
-		$this->load->model('admin','Admin_Model');
-		
 		$data['page_title'] = 'Admin Dashboard';
-
 		$this->load->admin_template('dashboard',$data);
 	}
 	
@@ -70,7 +67,7 @@ class Home extends CI_Controller {
 	}
 
 	public function settings()
-	{	
+	{
 		$data['page_title'] = 'Settings';
 		$data['message'] = '';
 		if($this->input->post())
@@ -110,17 +107,6 @@ class Home extends CI_Controller {
 		$this->session->unset_userdata($array_items);
 		$this->session->sess_destroy();
 		redirect('admin-login');
-	}
-	
-	private function load_header($data)
-	{
-		$this->load->view('includes/top', $data);
-		$this->load->view('includes/header');
-	}
-	
-	private function load_footer()
-	{
-		$this->load->view('includes/footer');
 	}
 	
 }

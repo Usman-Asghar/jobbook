@@ -6,8 +6,8 @@
         <meta name="description" content="Jobs portal where different kind of job activities are carried out electronically">
         <meta name="author" content="Yousaf Hassan">
 
-        <link rel="shortcut icon" href="assets/images/favicon_1.ico">
-
+        <link rel="shortcut icon" href="<?=assets_url('admin/images/favicon_1.ico');?>">
+		
         <title><?=$page_title?></title>
 
         <?=link_tag('admin/plugins/sweetalert/dist/sweetalert.css');?>
@@ -45,7 +45,7 @@
                 <div class="topbar-left">
                     <div class="text-center">
                         <a href="<?=base_url('admin')?>" class="logo">
-                          <img src="#" alt="<?=SITE_TITLE?>" />
+                          <img src="<?=assets_url('admin/images/logo_dark.png');?>" alt="<?=SITE_TITLE?>" />
                         </a>
                     </div>
                 </div>

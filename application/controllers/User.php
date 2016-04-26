@@ -1,7 +1,7 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-class Home extends CI_Controller {
+class User extends CI_Controller {
 
 	/**
 	 *  
@@ -15,8 +15,8 @@ class Home extends CI_Controller {
 	function __construct()
     {
         parent::__construct();
-		if(!$this->session->userdata('admin_logged_in')){
-			redirect('admin-login');
+		if(!$this->session->userdata('user_logged_in')){
+			redirect('user-login');
 			exit();
 		}
     }
@@ -24,24 +24,13 @@ class Home extends CI_Controller {
 	public function index()
 	{	
 		$this->load->library("pagination");
-		$this->load->model('admin','Admin_Model');
-		$data['page_title'] = 'Admin Dashboard';
-		
-		$this->load_header($data);
-		$filter = array('region_id' => $this->session->userdata('region_id'));
-		if( $this->input->post('top_filtered_date') )
-			$filter['date_entered'] = $this->common_functions->dateToSQL( $this->input->post('top_filtered_date') );
-		$data['licenses'] = $this->Admin_Model->get_dashboard_data(P1,0, $filter);
-		$data['categories'] = $this->Common_Model->get_all_rows_with_conditions(TBL_CATS, array('cat_status'=>'1') );
-		$data['blood_groups'] = $this->Common_Model->get_all_rows_with_conditions(TBL_BLOOD, array('group_status'=>'1') );
-		$this->load->view('dashboard',$data);
-		$this->load_footer();
+		$data['page_title'] = 'User Dashboard';
+		$this->load->front_template('dashboard',$data);
 	}
 	
 	public function profile()
 	{	
-		$data['page_title'] = 'Admin Profile';
-		$this->load_header($data);
+		$data['page_title'] = 'User Profile';
 		$data['message'] = '';
 		if($this->input->post())
 		{
@@ -61,14 +50,6 @@ class Home extends CI_Controller {
 					'admin_email' => $this->input->post('admin_email')
 				);
 
-				if (!empty($_FILES['admin_sign']['name'])) {
-					$upload_response = $this->upload_signatures('admin_sign');
-					if(is_array($upload_response))
-						$dt['admin_sign'] = $upload_response['file_name'];
-					else
-						$data['message'] = $upload_response;
-				}
-
 				if($data['message']==''){
 					// Update the session as well
 					$this->session->set_userdata($dt);
@@ -82,18 +63,15 @@ class Home extends CI_Controller {
 			}
 			
 		}
-		$this->load->view('profile',$data);
-		$this->load_footer();
+		$this->load->front_template('profile',$data);
 	}
-
-	public function change_password()
-	{	
-		$data['page_title'] = 'Change Passsword';
-		$this->load_header($data);
+	
+	public function settings()
+	{
+		$data['page_title'] = 'User Settings';
 		$data['message'] = '';
 		if($this->input->post())
 		{
-		
 			$this->form_validation->set_rules('current_password', 'Old Password', 'trim|required');
 			$this->form_validation->set_rules('new_password', 'New Password', 'trim|required|min_length[5]');
 			$this->form_validation->set_rules('re_new_password', 'Confirm New Password', 'trim|required|matches[new_password]');
@@ -101,44 +79,33 @@ class Home extends CI_Controller {
 				$data['message'] = '<div class="alert alert-danger">' . validation_errors() .'</div>';
 			}else{
 				$current_pass = hash("SHA256", $this->input->post('current_password') . $this->config->item('encryption_key') );
-				$conditions = array('admin_id' => $this->session->userdata('admin_id'), 'admin_password' => $current_pass);
-				if( !$this->Common_Model->get_single_row(TBL_ADMIN, $conditions) )
+				$conditions = array('user_id' => $this->session->userdata('user_id'), 'password' => $current_pass);
+				if( !$this->Common_Model->get_single_row(TBL_USERS, $conditions) )
 				{
 					$data['message'] = '<p class="alert alert-danger">Incorrect Current Password!</a>';
 				}else{
 					$dt = array(
-						'admin_password' => hash("SHA256", $this->input->post('new_password') . $this->config->item('encryption_key') )
+						'password' => hash("SHA256", $this->input->post('new_password') . $this->config->item('encryption_key') )
 					);
-					$conditions = array( 'admin_id' => $this->session->userdata('admin_id'));
-					if( $this->Common_Model->update(TBL_ADMIN, $dt,  $conditions) )
+					$conditions = array( 'user_id' => $this->session->userdata('user_id'));
+					if( $this->Common_Model->update(TBL_USERS, $dt,  $conditions) )
 						$data['message'] = '<p class="alert alert-success">Password Updated Successfully!</p>';
 					else
 						$data['message'] = '<p class="alert alert-danger">Failed to Update Password!</a>';
 				}
-				
 			}
 			
 		}
-		$this->load->view('change_password',$data);
-		$this->load_footer();
+		$this->load->front_template('settings',$data);
 	}
 	
 	public function logout()
 	{
-		$array_items = array('admin_logged_in' => '','admin_id' => '','admin_name' => '','admin_fname' => '','admin_lname' => '','admin_email' => '');
+		$array_items = array('user_logged_in' => '','user_id' => '','user_name' => '','user_fname' => '','user_lname' => '','user_email' => '');
 		$this->session->unset_userdata($array_items);
 		$this->session->sess_destroy();
-		redirect('admin-login');
+		redirect('user-login');
 	}
 	
-	private function load_header($data)
-	{
-		$this->load->view('includes/header',$data);
-	}
-	
-	private function load_footer()
-	{
-		$this->load->view('includes/footer');
-	}
 	
 }
