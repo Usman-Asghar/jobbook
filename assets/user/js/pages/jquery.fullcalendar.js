@@ -142,12 +142,6 @@
 				events = response;
 			}
 		});
-        var date = new Date();
-        var d = date.getDate();
-        var m = date.getMonth();
-        var y = date.getFullYear();
-        var form = '';
-        var today = new Date($.now());
 		
         var defaultEvents =  events;
 
@@ -165,14 +159,7 @@
                 right: 'month,agendaWeek,agendaDay'
             },
             events: defaultEvents,
-            editable: true,
-            droppable: true, // this allows things to be dropped onto the calendar !!!
             eventLimit: true, // allow "more" link when too many events
-            selectable: true,
-            drop: function(date) { $this.onDrop($(this), date); },
-            select: function (start, end, allDay) { $this.onSelect(start, end, allDay); },
-            eventClick: function(calEvent, jsEvent, view) { $this.onEventClick(calEvent, jsEvent, view); },
-
         });
 
         //on new event

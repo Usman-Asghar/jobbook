@@ -8,30 +8,30 @@
                         </div>
                         <div class="user-info">
                             <div class="dropdown">
-                                <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-expanded="false"><?=$this->session->userdata('admin_fname')?><span class="caret"></span></a>
+                                <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-expanded="false"><?=$this->session->userdata('fname')?><span class="caret"></span></a>
                                 <ul class="dropdown-menu">
-                                        <li><a href="<?=base_url('admin/home/profile')?>"><i class="md md-face-unlock"></i> Profile</a></li>
-                                        <li><a href="<?=base_url('admin/home/settings')?>"><i class="md md-settings"></i>Settings</a></li>
+                                        <li><a href="<?=base_url('user/profile')?>"><i class="md md-face-unlock"></i> Profile</a></li>
+                                        <li><a href="<?=base_url('user/settings')?>"><i class="md md-settings"></i>Settings</a></li>
                                         <!--<li><a href="javascript:void(0)"><i class="md md-lock"></i> Lock screen</a></li>-->
-                                        <li><a href="<?=base_url('admin/home/logout')?>"><i class="md md-settings-power"></i> Logout</a></li>
+                                        <li><a href="<?=base_url('user/logout')?>"><i class="md md-settings-power"></i> Logout</a></li>
                                 </ul>
                             </div>
                             
-                            <p class="text-muted m-0">Administrator</p>
+                            <p class="text-muted m-0">User Dashboard</p>
                         </div>
                     </div>
                     <!--- Divider -->
                     <div id="sidebar-menu">
                         <ul>
                             <li>
-                                <a href="<?=base_url('admin/home')?>" class="waves-effect waves-light active"><i class="md md-home"></i><span> Dashboard </span></a>
+                                <a href="<?=base_url('user')?>" class="waves-effect waves-light active"><i class="md md-home"></i><span> Dashboard </span></a>
                             </li>
 
                             <li>
-                                <a href="<?=base_url('admin/jobs')?>" class="waves-effect waves-light"><i class="md md-work"></i> Jobs </a>
+                                <a href="<?=base_url('jobs')?>" class="waves-effect waves-light"><i class="md md-work"></i> Jobs </a>
                             </li>
 							<li>
-								<a href="<?=base_url('admin/jobs/calendar_view')?>" class="waves-effect"><i class="md md-event"></i><span> Calendar View</span></a>
+								<a href="<?=base_url('jobs/calendar_view')?>" class="waves-effect"><i class="md md-event"></i><span> Calendar View</span></a>
                             </li>
                             <!--
                             <li class="has_sub">

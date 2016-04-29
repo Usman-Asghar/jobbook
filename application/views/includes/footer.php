@@ -1,18 +1,13 @@
-                <footer class="footer text-right">
-                    2015 © Moltran.
-                </footer>
-
-            </div>
-            <!-- ============================================================== -->
-            <!-- End Right content here -->
-            <!-- ============================================================== -->
-
-
+        <footer class="footer text-right">
+			2015 © Moltran.
+		</footer>
+		
+		</div>
+		<!-- ============================================================== -->
+		<!-- End Right content here -->
+		<!-- ============================================================== -->
         </div>
         <!-- END wrapper -->
-
-
-    
         <script>
             var resizefunc = [];
         </script>
@@ -48,13 +43,10 @@
 
         <!-- todos app  -->
         <?=script_tag('admin/pages/jquery.todo.js');?>
-        
         <!-- chat app  -->
         <?=script_tag('admin/pages/jquery.chat.js');?>
-        
         <!-- dashboard  -->
         <?=script_tag('admin/pages/jquery.dashboard.js');?>
-		
         <!-- BEGIN PAGE SCRIPTS -->
         <?php
 			if(function_exists('getScripts'))
@@ -62,7 +54,6 @@
 				$scripts = getScripts();
 			}
 		?>
-		
         <script type="text/javascript">
             jQuery(document).ready(function($) {
                 $('.counter').counterUp({
@@ -71,7 +62,5 @@
                 });
             });
         </script>
-
-    
     </body>
 </html>

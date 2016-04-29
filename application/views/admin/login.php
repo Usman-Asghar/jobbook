@@ -41,19 +41,16 @@
                             <input class="form-control input-lg" type="email" required="" id="email" placeholder="Login Email">
                         </div>
                     </div>
-
                     <div class="form-group">
                         <div class="col-xs-12">
                             <input class="form-control input-lg" type="password" required="" id="password" placeholder="Password">
                         </div>
                     </div>
-
                     <div class="form-group text-center m-t-40">
                         <div class="col-xs-12">
                             <button class="btn btn-primary btn-lg w-lg waves-effect waves-light" type="submit">Log In</button>
                         </div>
                     </div>
-
                     <div class="form-group m-t-30">
                         <div class="col-sm-7">
                             <a href="#"><i class="fa fa-lock m-r-5"></i> Forgot your password?</a>
@@ -63,12 +60,10 @@
                 </div>
             </div>
         </div>
-
         <!-- Main  -->
         <?=script_tag('admin/js/jquery.min.js');?>
         <?=script_tag('admin/js/bootstrap.min.js');?>
         <?=script_tag('admin/js/waves.js');?>
         <?=script_tag('admin/js/login.js');?>
-	
 	</body>
 </html>

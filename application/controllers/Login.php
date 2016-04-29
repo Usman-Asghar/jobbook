@@ -41,10 +41,10 @@ class Login extends CI_Controller {
 			if($validated){
 				$sess_array = array(
 						'user_id' => $validated->user_id,
-						'user_name' => $validated->fname .' '.$validated->lname,
-						'user_fname' => $validated->fname,
-						'user_lname' => $validated->lname,
-						'user_email' => $email,
+						'name' => $validated->fname .' '.$validated->lname,
+						'fname' => $validated->fname,
+						'lname' => $validated->lname,
+						'email' => $email,
 						'user_logged_in' => true
 				);
 				$this->session->set_userdata($sess_array);

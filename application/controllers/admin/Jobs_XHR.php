@@ -57,7 +57,8 @@ class Jobs_XHR extends CI_Controller {
 							  'deadline_date'=> $this->common_functions->dateToSQL( $this->security->xss_clean($this->input->post('deadline_date')) ),
 							  'date_entered'=> date('Y-m-d'),
 							  'assigned_to'=> $this->security->xss_clean($this->input->post('assigned_to')),
-							  'date_entered' => date('Y-m-d')
+							  'date_entered' => date('Y-m-d'),
+							  'admin_id' => $this->session->userdata('admin_id')
 							)
 						);
 					if($added){

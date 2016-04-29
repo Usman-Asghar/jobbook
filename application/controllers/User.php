@@ -35,27 +35,27 @@ class User extends CI_Controller {
 		if($this->input->post())
 		{
 		
-			$this->form_validation->set_rules('admin_fname', 'First Name', 'trim|required|max_length[30]');
-			$this->form_validation->set_rules('admin_lname', 'Last Name', 'trim|max_length[30]');
-			$this->form_validation->set_rules('admin_email', 'Email', 'trim|required|valid_email|xss_clean|max_length[50]');
+			$this->form_validation->set_rules('user_fname', 'First Name', 'trim|required|max_length[30]');
+			$this->form_validation->set_rules('user_lname', 'Last Name', 'trim|max_length[30]');
+			$this->form_validation->set_rules('user_email', 'Email', 'trim|required|valid_email|xss_clean|max_length[50]');
 			
 			if(!$this->form_validation->run()){
 				$data['message'] = validation_errors('<p class="alert alert-danger">');
 			}else{
 
 				$dt = array(
-					'admin_name' => $this->input->post('admin_fname') .' '.$this->input->post('admin_lname'),
-					'admin_fname' => $this->input->post('admin_fname'),
-					'admin_lname' => $this->input->post('admin_lname'),
-					'admin_email' => $this->input->post('admin_email')
+					'user_name' => $this->input->post('user_fname') .' '.$this->input->post('user_lname'),
+					'fname' => $this->input->post('user_fname'),
+					'lname' => $this->input->post('user_lname'),
+					'email' => $this->input->post('user_email')
 				);
 
 				if($data['message']==''){
 					// Update the session as well
 					$this->session->set_userdata($dt);
-					unset($dt['admin_name']);
-					$conditions = array( 'admin_id' => $this->session->userdata('admin_id'));
-					if( $this->Common_Model->update(TBL_ADMIN, $dt,  $conditions) )
+					unset($dt['user_name']);
+					$conditions = array( 'user_id' => $this->session->userdata('user_id'));
+					if( $this->Common_Model->update(TBL_USERS, $dt,  $conditions) )
 						$data['message'] = '<p class="alert alert-success">Profile Updated Successfully!</p>';
 					else
 						$data['message'] = '<p class="alert alert-danger">Failed to Update Profile!</a>';

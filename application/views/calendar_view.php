@@ -98,10 +98,10 @@ function getScripts()
     ob_start();
 ?>
 <script>
-	var CALENDAR_URL = '<?=base_url('admin/jobs_XHR/get_calendar_jobs');?>';
+	var CALENDAR_URL = '<?=base_url('jobs/get_calendar_jobs');?>';
 </script>
 <?=script_tag('admin/plugins/fullcalendar/dist/fullcalendar.min.js');?>
-<?=script_tag('admin/pages/jquery.fullcalendar.js');?>
+<?=script_tag('user/js/pages/jquery.fullcalendar.js');?>
 <?php
 
     $content = ob_get_contents();

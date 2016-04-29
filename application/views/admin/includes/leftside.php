@@ -17,7 +17,7 @@
                                 </ul>
                             </div>
                             
-                            <p class="text-muted m-0">Administrator</p>
+                            <p class="text-muted m-0">Admin Dashboard</p>
                         </div>
                     </div>
                     <!--- Divider -->
