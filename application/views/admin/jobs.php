@@ -1,5 +1,7 @@
 <?=link_tag('admin/plugins/bootstrap-datepicker/dist/css/bootstrap-datepicker.min.css');?>
 <?=link_tag('admin/plugins/bootstrap-selectable/css/bootstrap-select.min.css');?>
+<?=link_tag('admin/plugins/datatables/jquery.dataTables.min.css');?>
+
 <!-- Begin page -->
 <div id="wrapper">
 	<div class="container">
@@ -169,14 +171,16 @@
 							</div>
 
 							<div class="panel-body" id="content" class="content-limit-500">
-								<table class="table table-striped table-bordered nowrap"
+								<table id="datatable" class="table table-striped table-bordered nowrap"
 									   cellspacing="0" width="100%">
 									<thead>
 										<tr>
 											<th>Job ID</th>
 											<th>Title</th>
-											<th>Description</th>
 											<th>Assigned To</th>
+											<th>Description</th>
+											<th>Start Date</th>
+											<th>End Date</th>
 											<th>Actions</th>
 										</tr>
 									</thead>
@@ -192,6 +196,8 @@
 											<td><?=$job->job_no?></td>
 											<td><?=$job->job_title?></td>
 											<td><?=$job->job_desc?></td>
+											<td><?=$job->start_date?></td>
+											<td><?=$job->deadline_date?></td>
 											<td><?=ucfirst($job->fname);?> <?=ucfirst($job->lname);?></td>
 											<td>
 												<div class="btn-group-sm">
@@ -226,11 +232,19 @@ function getScripts()
 <?=script_tag('admin/js/jobs.js');?>
 <!-- Latest compiled and minified JavaScript -->
 <?=script_tag('admin/plugins/bootstrap-selectable/js/bootstrap-select.min.js');?>
+<!-- Datatables-->
+<?=script_tag('admin/plugins/datatables/jquery.dataTables.min.js');?>
+<?=script_tag('admin/plugins/datatables/dataTables.bootstrap.js');?>
+
 <script>
 $('.selectpicker').selectpicker({
   style: 'btn-info',
   liveSearch:true
 });
+$(document).ready(function() {
+$('#datatable').dataTable();
+} );
+
 </script>
 <?php
     $content = ob_get_contents();

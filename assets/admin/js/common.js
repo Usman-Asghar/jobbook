@@ -75,6 +75,7 @@ function edit_item(record_id, URL){
 			if(response.success){
 				var indexes = response.data;
 				for(x in indexes){
+					console.log(x);
 					$('#'+x).val(indexes[x]);
 				}
 				$("#update_form_holder").toggle('slow');
