@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: Apr 27, 2016 at 10:16 PM
+-- Generation Time: Apr 30, 2016 at 10:53 PM
 -- Server version: 5.6.21
 -- PHP Version: 5.6.3
 
@@ -39,7 +39,7 @@ CREATE TABLE IF NOT EXISTS `yh_admin` (
 --
 
 INSERT INTO `yh_admin` (`admin_id`, `admin_fname`, `admin_lname`, `admin_email`, `admin_password`) VALUES
-(1, 'Yousaf Khan', 'Hassan', 'usafhassan@gmail.com', '81fb0d4fcb80cfe3bb4c86919e4173f0ca3b3361657fb48223ef10a950c9db23');
+(1, 'Admin', 'User', 'admin@gmail.com', '81fb0d4fcb80cfe3bb4c86919e4173f0ca3b3361657fb48223ef10a950c9db23');
 
 -- --------------------------------------------------------
 
@@ -58,7 +58,7 @@ CREATE TABLE IF NOT EXISTS `yh_jobs` (
   `assigned_to` int(11) DEFAULT NULL,
   `job_status` enum('0','1') NOT NULL DEFAULT '1',
   `admin_id` int(11) NOT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `yh_jobs`
@@ -68,7 +68,9 @@ INSERT INTO `yh_jobs` (`job_id`, `job_no`, `job_title`, `job_desc`, `start_date`
 (1, 'job1', 'Web', 'web development', '2016-04-01', '2016-04-02', '2016-04-23', 1, '1', 1),
 (2, 'job2', 'Web2', 'asjlajs;l;lasd;lkl;asd', '2016-04-03', '2016-04-08', '2016-04-23', 1, '1', 1),
 (3, 'job3', 'New Added', 'sabjkhdnsk.na..dsma', '2016-04-21', '2016-04-30', '2016-04-25', 1, '1', 1),
-(4, 'job4', 'adsasdasdsadsadsa', 'sdsadsadsadsadsadsa', '2016-04-01', '2016-04-30', '2016-04-27', 1, '1', 1);
+(4, 'job4', 'adsasdasdsadsadsa', 'sdsadsadsadsadsadsa', '2016-04-01', '2016-04-30', '2016-04-27', 1, '1', 1),
+(5, 'job5', 'Job 4 title', 'job 4 Description', '2016-04-30', '2016-05-07', '2016-04-27', 2, '1', 1),
+(6, 'job6', 'Job6', 'Job6 Description', '2016-05-21', '2016-05-31', '2016-04-28', 2, '1', 1);
 
 -- --------------------------------------------------------
 
@@ -84,14 +86,15 @@ CREATE TABLE IF NOT EXISTS `yh_users` (
   `password` varchar(100) NOT NULL,
   `profile_status` enum('0','1') NOT NULL,
   `admin_id` int(11) NOT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `yh_users`
 --
 
 INSERT INTO `yh_users` (`user_id`, `fname`, `lname`, `email`, `password`, `profile_status`, `admin_id`) VALUES
-(1, 'usman', 'asghar', 'usman@gmail.com', '81fb0d4fcb80cfe3bb4c86919e4173f0ca3b3361657fb48223ef10a950c9db23', '1', 1);
+(1, 'Sipmle', 'User', 'user1@gmail.com', '81fb0d4fcb80cfe3bb4c86919e4173f0ca3b3361657fb48223ef10a950c9db23', '1', 1),
+(2, 'Simple', 'User', 'user2@gmail.com', '81fb0d4fcb80cfe3bb4c86919e4173f0ca3b3361657fb48223ef10a950c9db23', '1', 1);
 
 --
 -- Indexes for dumped tables
@@ -128,12 +131,12 @@ MODIFY `admin_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=2;
 -- AUTO_INCREMENT for table `yh_jobs`
 --
 ALTER TABLE `yh_jobs`
-MODIFY `job_id` bigint(20) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=5;
+MODIFY `job_id` bigint(20) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=7;
 --
 -- AUTO_INCREMENT for table `yh_users`
 --
 ALTER TABLE `yh_users`
-MODIFY `user_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=2;
+MODIFY `user_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=3;
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;

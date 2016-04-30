@@ -45,7 +45,7 @@
                 <div class="topbar-left">
                     <div class="text-center">
                         <a href="<?=base_url('user')?>" class="logo">
-                          <img src="<?=assets_url('admin/images/logo_dark.png');?>" alt="<?=SITE_TITLE?>" />
+                          <img src="<?//=assets_url('admin/images/logo_dark.png');?>" alt="<?=SITE_TITLE?>" />
                         </a>
                     </div>
                 </div>
