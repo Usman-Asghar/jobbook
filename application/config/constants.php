@@ -25,6 +25,7 @@ define('SITE_TITLE', 'Jobs Book');
 define('TBL_ADMIN','admin');
 define('TBL_USERS','users');
 define('TBL_JOBS','jobs');
+define('TBL_GRADES','grades');
 
 
 

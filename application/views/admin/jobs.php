@@ -35,8 +35,15 @@
 										<div class="row" >
 											<div class="col-sm-6">
 												<div class="form-group">
-													<label for="job_no">Job ID</label>
-													<input type="text" class="form-control" placeholder="A unique job ID" name="job_no" id="job_no" autofocus />
+													<label for="job_grade">Job Grade</label>
+													<select class="form-control" name="grade_id" id="grade_id">
+														<option value="0"> - Select - </option>
+														<?php foreach($grades as $g): ?>
+															<option value="<?=$g->grade_id?>" >
+																<?=$g->grade_name?>
+															</option>
+														<?php endforeach; ?>
+													</select>
 												</div>
 											</div>
 											<div class="col-sm-6">
@@ -47,28 +54,29 @@
 											</div>
 										</div>
 										<div class="row">
-											<div class="col-sm-6">
+											<!--<div class="col-sm-6">
 												<div class="form-group">
 													<label for="start_date">Start Date</label>
 													<input type="text" class="form-control" placeholder="Job Opening Date" name="start_date" id="start_date" />
 												</div>
-											</div>
+											</div>-->
 											<div class="col-sm-6">
 												<div class="form-group">
 													<label for="deadline_date">Deadline Date</label>
 													<input type="text" class="form-control" placeholder="Job Closing Date" name="deadline_date" id="deadline_date" />
 												</div>
 											</div>
-										</div>
-										<div class="row">
-											<div class="col-sm-12">
+											<div class="col-sm-6">
 												<div class="form-group">
 													<label for="job_desc">Job Description</label>
 													<textarea class="form-control" name="job_desc" id="job_desc" placeholder="Describe as much detail about the job as possible" rows="5"></textarea>
 												</div>
-											</div>                                                    
+											</div> 
 										</div>
-										<div class="row">
+										<!--<div class="row">
+											                                                   
+										</div>-->
+										<!--<div class="row">
 											<div class="col-sm-6">
 												<div class="form-group">
 													<label for="assigned_to">Assigned To</label>
@@ -82,7 +90,7 @@
 													</select>
 												</div>
 											</div>
-										</div>                                                
+										</div>-->                                                
 										<div class="row" >
 											<div class="col-sm-6">
 												<div class="input-group">
@@ -109,8 +117,15 @@
 										<div class="row" >
 											<div class="col-sm-6">
 												<div class="form-group">
-													<label for="job_no">Job ID</label>
-													<input type="text" class="form-control" placeholder="A unique job ID" name="job_no" id="job_no_u" readonly />
+													<label for="job_grade">Job Grade</label>
+													<select class="form-control" name="grade_id" id="grade_id_u">
+														<option value="0"> - Select - </option>
+														<?php foreach($grades as $g): ?>
+															<option value="<?=$g->grade_id?>" >
+																<?=$g->grade_name?>
+															</option>
+														<?php endforeach; ?>
+													</select>
 												</div>
 											</div>
 											<div class="col-sm-6">
@@ -121,33 +136,34 @@
 											</div>
 										</div>
 										<div class="row">
-											<div class="col-sm-6">
+											<!--<div class="col-sm-6">
 												<div class="form-group">
 													<label for="start_date">Start Date</label>
-													<input type="text" class="form-control" placeholder="Job Opening Date" name="start_date" id="start_date_u" />
+													<input type="text" class="form-control" placeholder="Job Opening Date" name="start_date" id="start_date" />
 												</div>
-											</div>
+											</div>-->
 											<div class="col-sm-6">
 												<div class="form-group">
 													<label for="deadline_date">Deadline Date</label>
 													<input type="text" class="form-control" placeholder="Job Closing Date" name="deadline_date" id="deadline_date_u" />
 												</div>
 											</div>
-										</div>
-										<div class="row">
-											<div class="col-sm-12">
+											<div class="col-sm-6">
 												<div class="form-group">
 													<label for="job_desc">Job Description</label>
 													<textarea class="form-control" name="job_desc" id="job_desc_u" placeholder="Describe as much detail about the job as possible" rows="5"></textarea>
 												</div>
-											</div>                                                    
+											</div> 
 										</div>
-										<div class="row">
+										<!--<div class="row">
+											                                                   
+										</div>-->
+										<!--<div class="row">
 											<div class="col-sm-6">
 												<div class="form-group">
 													<label for="assigned_to">Assigned To</label>
-													<select class="form-control" name="assigned_to" id="assigned_to_u">
-														<option value="0"> - Select - </option>
+													<select class="form-control selectpicker" name="assigned_to" id="assigned_to">
+														<option value=""> - Select - </option>
 														<?php foreach($users as $u): ?>
 															<option value="<?=$u->user_id?>" >
 																<?=$u->fname.' '.$u->lname?>
@@ -156,7 +172,7 @@
 													</select>
 												</div>
 											</div>
-										</div>                                                
+										</div>-->                                                
 										<div class="row" >
 											<div class="col-sm-6">
 												<div class="input-group">
@@ -169,13 +185,24 @@
 								</div>                              
 							  </div>
 							</div>
-
+                                                        
 							<div class="panel-body" id="content" class="content-limit-500">
-								<table id="datatable" class="table table-striped table-bordered nowrap"
+                                                                <div class="col-sm-12">
+                                                                    <label for="job_grade">Job Grade</label>
+                                                                    <select class="form-control select-margin" name="grade_id" id="search_by_grade">
+                                                                            <option value="0"> - Select - </option>
+                                                                            <?php foreach($grades as $g): ?>
+                                                                                    <option value="<?=$g->grade_name?>" >
+                                                                                            <?=$g->grade_name?>
+                                                                                    </option>
+                                                                            <?php endforeach; ?>
+                                                                    </select>
+                                                                </div>
+                                                                <table id="datatable" class="table table-striped table-bordered nowrap"
 									   cellspacing="0" width="100%">
 									<thead>
 										<tr>
-											<th>Job ID</th>
+											<th>Job Grade</th>
 											<th>Title</th>
 											<th>Assigned To</th>
 											<th>Description</th>
@@ -193,12 +220,12 @@
 
 										<?php foreach($jobs as $job): ?>
 										<tr>
-											<td><?=$job->job_no?></td>
+											<td><?=$job->grade_name?></td>
 											<td><?=$job->job_title?></td>
+											<td><?=ucfirst($job->fname);?> <?=ucfirst($job->lname);?></td>
 											<td><?=$job->job_desc?></td>
 											<td><?=$job->start_date?></td>
 											<td><?=$job->deadline_date?></td>
-											<td><?=ucfirst($job->fname);?> <?=ucfirst($job->lname);?></td>
 											<td>
 												<div class="btn-group-sm">
 												<a href="#" onclick="edit_item(<?=$job->job_id;?>,'<?=base_url('admin/jobs_XHR/update')?>');" class="btn btn-success waves-effect waves-light tooltips" data-placement="top" data-toggle="tooltip" data-original-title="Edit">
@@ -235,15 +262,28 @@ function getScripts()
 <!-- Datatables-->
 <?=script_tag('admin/plugins/datatables/jquery.dataTables.min.js');?>
 <?=script_tag('admin/plugins/datatables/dataTables.bootstrap.js');?>
-
+<script src="//cdn.datatables.net/plug-ins/1.10.11/api/fnFilterClear.js"></script>
 <script>
 $('.selectpicker').selectpicker({
   style: 'btn-info',
   liveSearch:true
 });
+
 $(document).ready(function() {
-$('#datatable').dataTable();
-} );
+    var dataTable = $('#datatable').dataTable();
+    
+    $('select#search_by_grade').change( function() 
+    { 
+        if($(this).val() == 0)
+        {
+            dataTable.fnFilter('',0);
+        }
+        else
+        {
+            dataTable.fnFilter( $(this).val(),0,true,false); 
+        }
+    });
+});
 
 </script>
 <?php

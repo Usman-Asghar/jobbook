@@ -26,7 +26,9 @@
                             <li>
                                 <a href="<?=base_url('admin/home')?>" class="waves-effect waves-light active"><i class="md md-home"></i><span> Dashboard </span></a>
                             </li>
-
+							<li>
+                                <a href="<?=base_url('admin/grades')?>" class="waves-effect waves-light"><i class="md md-home"></i><span> Grades </span></a>
+                            </li>
                             <li>
                                 <a href="<?=base_url('admin/jobs')?>" class="waves-effect waves-light"><i class="md md-work"></i> Jobs </a>
                             </li>

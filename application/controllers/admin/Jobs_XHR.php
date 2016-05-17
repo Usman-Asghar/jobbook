@@ -32,9 +32,8 @@ class Jobs_XHR extends CI_Controller {
 	public function add_new(){
 		$response = array('success'=>false,'message'=>'');
 		if($this->input->post()){
-			$this->form_validation->set_rules('job_no', 'Job ID', 'trim|required|max_length[15]|is_unique['.TBL_JOBS.'.job_no]');
+			$this->form_validation->set_rules('grade_id', 'Job Grade', 'trim|required|max_length[11]');
 			$this->form_validation->set_rules('job_title', 'Job Title', 'trim|required|ucfirst|max_length[100]');
-			$this->form_validation->set_rules('start_date', 'Start date', 'trim|required|max_length[15]');
 			$this->form_validation->set_rules('deadline_date', 'Deadline Date', 'trim|required|max_length[15]');
 
 			$this->form_validation->set_rules('job_desc', 'Job Description', 'trim|required|min_length[5]');
@@ -50,14 +49,12 @@ class Jobs_XHR extends CI_Controller {
 
 					$added=$this->Common_Model->add(TBL_JOBS,
 						array(
-							  'job_no'=> $this->security->xss_clean($this->input->post('job_no')),
+							  'grade_id'=> $this->security->xss_clean($this->input->post('grade_id')),
 							  'job_title'=> $this->security->xss_clean($this->input->post('job_title')),
 							  'job_desc'=> $this->security->xss_clean($this->input->post('job_desc')),
-							  'start_date'=> $this->common_functions->dateToSQL( $this->security->xss_clean($this->input->post('start_date')) ),
+							  'start_date'=> date('Y-m-d'),
 							  'deadline_date'=> $this->common_functions->dateToSQL( $this->security->xss_clean($this->input->post('deadline_date')) ),
 							  'date_entered'=> date('Y-m-d'),
-							  'assigned_to'=> $this->security->xss_clean($this->input->post('assigned_to')),
-							  'date_entered' => date('Y-m-d'),
 							  'admin_id' => $this->session->userdata('admin_id')
 							)
 						);
@@ -75,9 +72,8 @@ class Jobs_XHR extends CI_Controller {
 	public function update(){
 		$response = array('success'=>false,'message'=>'');
 		if($this->input->post('update')){
-			$this->form_validation->set_rules('job_no', 'Job ID', 'trim|required|max_length[15]|callback_is_job_ok_4_updation');
+			$this->form_validation->set_rules('grade_id', 'Job Grade', 'trim|required|max_length[11]');
 			$this->form_validation->set_rules('job_title', 'Job Title', 'trim|required|ucfirst|max_length[100]');
-			$this->form_validation->set_rules('start_date', 'Start date', 'trim|required|max_length[15]');
 			$this->form_validation->set_rules('deadline_date', 'Deadline Date', 'trim|required|max_length[15]');
 			$this->form_validation->set_rules('job_desc', 'Job Description', 'trim|required|min_length[5]');
 			if($this->form_validation->run() == FALSE){
@@ -86,11 +82,10 @@ class Jobs_XHR extends CI_Controller {
 			else
 			{
 				$new_data = array(
+					'grade_id'=> $this->security->xss_clean($this->input->post('grade_id')),
 					'job_title'=> $this->security->xss_clean($this->input->post('job_title')),
 					'job_desc'=> $this->security->xss_clean($this->input->post('job_desc')),
-					'start_date'=> $this->common_functions->dateToSQL( $this->security->xss_clean($this->input->post('start_date')) ),
 					'deadline_date'=> $this->common_functions->dateToSQL( $this->security->xss_clean($this->input->post('deadline_date')) ),
-					'assigned_to'=> $this->security->xss_clean($this->input->post('assigned_to'))
 				);
 				
 				$updated=$this->Common_Model->update(TBL_JOBS,
@@ -110,12 +105,11 @@ class Jobs_XHR extends CI_Controller {
 
 			$response['data'] = array();
 			$response['data']['record_id'] = $detail->job_id;
-			$response['data']['job_no_u'] = $detail->job_no;
+			$response['data']['grade_id_u'] = $detail->grade_id;
 			$response['data']['job_title_u'] = $detail->job_title;
-			$response['data']['start_date_u'] = $this->common_functions->dateFromSQL($detail->start_date);
 			$response['data']['deadline_date_u'] = $this->common_functions->dateFromSQL($detail->deadline_date);
 			$response['data']['job_desc_u'] = $detail->job_desc;
-			$response['data']['assigned_to_u'] = $detail->assigned_to;
+			//$response['data']['assigned_to_u'] = $detail->assigned_to;
 			
 			$response['success'] = true;
 		}
@@ -136,16 +130,16 @@ class Jobs_XHR extends CI_Controller {
 	public function get_calendar_jobs()
 	{
 		$data['jobs'] = $this->Admin_Model->get_all_jobs( array('job_status' => '1') );
-		$calendar_events = array();
+                $calendar_events = array();
 		
 		foreach($data['jobs'] as $job):
 			$calendar_events[] = array(
-            'id' => $job->job_id,
-			'title' => $job->job_title,
-            'start' => $job->start_date,
-            'end' => $job->deadline_date,
-			'className' => 'bg-purple'
-        );
+                        'id' => $job->job_id,
+                        'title' => 'Grade: '. $job->grade_name. ' Title: '.$job->job_title. ' Description: '.$job->job_desc,
+                        'start' => $job->start_date,
+                        'end' => $job->deadline_date,
+                        'color' => $job->grade_color
+                    );
 		endforeach;
 		
 		echo json_encode($calendar_events);

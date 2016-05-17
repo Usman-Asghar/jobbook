@@ -26,17 +26,13 @@ class MY_Loader extends CI_Loader {
     {
         if($return):
             $content  = $this->view('includes/header', $vars, $return);
-            $content .= $this->view('includes/leftside', $vars, $return);
             $content .= $this->view($template_name, $vars, $return);
-            $content .= $this->view('includes/rightside', $vars, $return);
             $content .= $this->view('includes/footer', $vars, $return);
 
             return $content;
         else:
             $this->view('includes/header', $vars);
-            $this->view('includes/leftside', $vars);
             $this->view($template_name, $vars);
-            $this->view('includes/rightside', $vars);
             $this->view('includes/footer', $vars);
         endif;
     }
