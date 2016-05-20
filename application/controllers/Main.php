@@ -19,6 +19,12 @@ class Main extends CI_Controller {
             $this->load->front_template('index',$data);
 	}
         
+        public function login()
+	{
+            $data['page_title'] = 'Login';
+            $this->load->front_template('login',$data);
+	}
+        
         public function register()
 	{
             $data['page_title'] = 'Register Account';
@@ -39,6 +45,11 @@ class Main extends CI_Controller {
         
         public function profile()
 	{
+            if(!$this->session->userdata('user_logged_in'))
+            {
+                    redirect('main/login');
+                    exit();
+            }
             $data['page_title'] = 'User Profile';
             $this->load->front_template('profile',$data);
 	}
@@ -47,6 +58,19 @@ class Main extends CI_Controller {
 	{
             $data['page_title'] = 'Job Detail';
             $this->load->front_template('single',$data);
+	}
+        public function about()
+	{
+            $data['page_title'] = 'About Us';
+            $this->load->front_template('about',$data);
+	}
+        
+        public function logout()
+	{
+            $array_items = array('user_logged_in' => '','user_id' => '','user_name' => '','user_fname' => '','user_lname' => '','user_email' => '');
+            $this->session->unset_userdata($array_items);
+            $this->session->sess_destroy();
+            redirect('main');
 	}
 }
 ?>

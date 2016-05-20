@@ -1,5 +1,8 @@
 
 $(document).ready(function(){
+        $('#btn-login').click(function(){
+            alert(1);
+        });
 	$('#loginForm').submit(function(e){
 		e.preventDefault();
 		$.ajax({
@@ -11,7 +14,7 @@ $(document).ready(function(){
 			},
 			success : function(response){
 				if(response==1){
-					location.href = global.base_url + 'user';								
+					location.href = global.base_url + 'jobs';								
 				}else
 					$('#errors').html(response).fadeOut().fadeIn();
 			}

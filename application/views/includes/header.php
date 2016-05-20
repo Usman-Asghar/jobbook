@@ -16,11 +16,14 @@
     <?=link_tag('user/css/fancySelect.css');?>
     <?=link_tag('user/css/style.css');?>
     <?=link_tag('user/css/facebox.css');?>
-
+    
     <link href='https://fonts.googleapis.com/css?family=Droid+Serif:400,400italic,700,700italic' rel='stylesheet' type='text/css'>
     <link href='https://fonts.googleapis.com/css?family=Ubuntu:700italic,700,500italic,500,400italic,400,300italic,300' rel='stylesheet' type='text/css'>
+    <script type="text/javascript">
+        var global = { base_url : "<?=base_url(); ?>" }
+    </script>
 </head>
-
+<?php  ?>
 <body>
     <div id="mask">
         <div id="loader"> </div>
@@ -28,32 +31,34 @@
     <header class="sb-slidebar sb-left">
         <nav class="main-menu">
             <ul>
-                <li><a href="index.html" class="active">HOME</a>
+                <li><a href="<?=  base_url('main')?>" class="active">HOME</a>
                 </li>
-                <li><a href="about.html">ABOUT</a>
+                <li><a href="<?=  base_url('main/about')?>">ABOUT</a>
                 </li>
-                <li><a href="#">FIND A JOB</a>
-                    <ul class="sub-menu">
-                        <li><a href="search-fixed.html">Search 1</a>
-                        </li>
-                        <li><a href="search.html">Search 2</a>
-                        </li>
-                    </ul>
+                <li><a href="<?=  base_url('main/contact')?>">Contact</a>
                 </li>
-                <li><a href="#">Job</a>
-                    <ul class="sub-menu">
-                        <li><a href="single.html">Job profile</a>
-                        </li>
-                        <li><a href="jobs.html">Jobs Listings</a>
-                        </li>
-                    </ul>
+                <?php
+                if($this->session->userdata('user_logged_in'))
+                {
+                ?>
+                    <li><a href="<?=  base_url('jobs')?>">Job</a>
+                    </li>
+                    <li><a href="<?=  base_url('main/profile')?>">Profile</a>
+                    </li>
+                    <li><a href="<?=  base_url('main/logout')?>">Logout</a>
+                    </li>
+                <?php
+                }
+                else
+                {
+                ?>
+                <li><a href="<?=  base_url('main/register')?>">Register</a>
                 </li>
-                <li><a href="profile.html">Candidate</a>
+                <li><a href="<?=  base_url('main/login')?>" data-popup="facebox">Login</a>
                 </li>
-                <li><a href="submit-job.html">POST A JOB</a>
-                </li>
-                <li><a href="contact.html">Contact</a>
-                </li>
+                <?php
+                }
+                ?>
             </ul>
         </nav>
     </header>

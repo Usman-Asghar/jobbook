@@ -11,11 +11,7 @@
                     <div class="top-inner-prof">
                         <a href="#" class="profile-link clearfix"> <span class="prof-img"><img src="<?=assets_url('user/img/prof-01.jpg');?>" alt=""></span> <span class="prof-name">ResponsiveExperts</span> </a>
                     </div>
-                    <div class="top-inner-search">
-                        <div class="search-top">
-                            <form> <span class="search-form clearfix"> <input class="search-txt-top" type="text" placeholder="Search Here..."> <button type="button" class="search-btn-top" onClick="parent.location='search-fixed.html'"><i class="fi-magnifying-glass"></i></button> </span> </form>
-                        </div>
-                    </div>
+                   
                 </div>
             </div>
         </div>

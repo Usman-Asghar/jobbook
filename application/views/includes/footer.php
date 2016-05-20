@@ -48,15 +48,6 @@
 <?=script_tag('user/js/jquery.appear.js');?>
 <?=script_tag('user/js/settings.js');?>
 <?=script_tag('user/js/facebox.js');?>
-<script type="text/javascript">
-   jQuery(document).ready(function($) {
-       $('a[data-popup*=facebox]').facebox({
-           opacity: 0.9,
-           loadingImage: 'assets/user/img/loading.gif',
-           closeImage: 'assets/user/img/closelabel.png'
-       });
-   });
-</script>
 <?=script_tag('user/js/jquery.flexslider.js');?>
 <script type="text/javascript">
    $('.banner-slider').flexslider({
