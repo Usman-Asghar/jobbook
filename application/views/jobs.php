@@ -7,15 +7,25 @@
                     <a href="index.html"><img src="<?=assets_url('user/img/logo.png');?>" alt="">
                     </a>
                 </div>
-                <div class="right-navigation-inner clearfix">
-                    <div class="top-inner-prof">
-                        <a href="#" class="profile-link clearfix"> <span class="prof-img"><img src="<?=assets_url('user/img/prof-01.jpg');?>" alt=""></span> <span class="prof-name">ResponsiveExperts</span> </a>
-                    </div>
-                    <div class="top-inner-search">
-                        <div class="search-top">
-                            <form> <span class="search-form clearfix"> <input class="search-txt-top" type="text" placeholder="Search Here..."> <button type="button" class="search-btn-top" onClick="parent.location='search-fixed.html'"><i class="fi-magnifying-glass"></i></button> </span> </form>
-                        </div>
-                    </div>
+                <div class="right-navigation">
+                    <ul>
+                        <?php
+                        if($this->session->userdata('user_logged_in'))
+                        {
+                        ?>
+                            <li><a href="<?=  base_url('main/logout')?>">Logout</a>
+                            </li>
+                        <?php
+                        }
+                        else
+                            {
+                            ?>
+                            <li><a href="<?=  base_url('main/login')?>" data-popup="facebox">Login</a>
+                            </li>
+                            <?php
+                            }
+                        ?>
+                    </ul>
                 </div>
             </div>
         </div>
@@ -25,77 +35,31 @@
             <div class="row clearfix">
                 <div class="col-md-12">
                     <div class="headings-area">
-                        <h3 class="animated" data-animation="fadeInUp" data-animation-delay="100">Jobs For You</h3>
-                        <h5 class="uppercase animated" data-animation="fadeInUp" data-animation-delay="100">Total <a href="#">151</a> jobs found </h5>
-                        <hr class="animated" data-animation="fadeInUp" data-animation-delay="100"> </div>
-                    <div class="jobs-search-area clearfix animated" data-animation="fadeInUp" data-animation-delay="100">
-                        <div class="search-bx">
-                            <input type="text" class="search-job-field" placeholder="Search a Job..">
-                        </div>
-                        <div class="location-picker"><a href="#" class="picker">Pick a Location</a>
-                        </div>
-                        <div class="job-selecter">
-                            <select id="basic-selecter">
-                                <option value="">Select job type</option>
-                                <option>Full Time</option>
-                                <option>Freelancer</option>
-                                <option>Temporary</option>
-                                <option>Intership</option>
-                            </select>
-                        </div>
-                    </div>
+                    <div class="alert alert-success alert-dismissable" id="success_message"></div>
+                    <div class="alert alert-danger alert-dismissable" id="error_message"></div>
                     <div class="job-list-head clearfix animated" data-animation="fadeInUp" data-animation-delay="100">
                         <div class="title">job title</div>
-                        <div class="location">Location</div>
-                        <div class="create">Create at</div>
+                        <div class="location">Create at</div>
+                        <div class="create">Deadline</div>
+                        <div class="actions">Actions</div>
                     </div>
-                    <ul class="job-listings">
-                        <li class="animated" data-animation="fadeInUp" data-animation-delay="100">
-                            <div class="title"> <span class="prof-photo"><a href="single.html"><img src="<?=assets_url('user/img/prof-01.jpg');?>" alt=""></a></span> <span class="designation"> <a href="single.html">GRAPHIC DESIGNER</a><br>5Goat Corporation </span> </div>
-                            <div class="location">California, USA</div>
-                            <div class="create">10 mins ago</div>
-                        </li>
-                        <li class="animated" data-animation="fadeInUp" data-animation-delay="100">
-                            <div class="title"> <span class="prof-photo"><a href="single.html"><img src="<?=assets_url('user/img/prof-02.jpg');?>" alt=""></a></span> <span class="designation"> <a href="single.html">wordpress developer</a><br>Behance </span> </div>
-                            <div class="location">New York, USA</div>
-                            <div class="create">2 days ago</div>
-                        </li>
-                        <li class="animated" data-animation="fadeInUp" data-animation-delay="100">
-                            <div class="title"> <span class="prof-photo"><a href="single.html"><img src="<?=assets_url('user/img/prof-03.jpg');?>" alt=""></a></span> <span class="designation"> <a href="single.html">web designer</a><br>Dribbble </span> </div>
-                            <div class="location">California, USA</div>
-                            <div class="create">3 days ago</div>
-                        </li>
-                        <li class="animated" data-animation="fadeInUp" data-animation-delay="100">
-                            <div class="title"> <span class="prof-photo"><a href="single.html"><img src="<?=assets_url('user/img/prof-04.jpg');?>" alt=""></a></span> <span class="designation"> <a href="single.html">MEAN developer</a><br>Themeforest </span> </div>
-                            <div class="location">New York, USA</div>
-                            <div class="create">05-02-2015</div>
-                        </li>
-                        <li class="animated" data-animation="fadeInUp" data-animation-delay="100">
-                            <div class="title"> <span class="prof-photo"><a href="single.html"><img src="<?=assets_url('user/img/prof-05.jpg');?>" alt=""></a></span> <span class="designation"> <a href="single.html">print designer</a><br>Themeforest </span> </div>
-                            <div class="location">New York, USA</div>
-                            <div class="create">05-02-2015</div>
-                        </li>
-                        <li class="animated" data-animation="fadeInUp" data-animation-delay="100">
-                            <div class="title"> <span class="prof-photo"><a href="single.html"><img src="<?=assets_url('user/img/prof-06.jpg');?>" alt=""></a></span> <span class="designation"> <a href="single.html">java developer</a><br>Codecanyon Labs </span> </div>
-                            <div class="location">Canada</div>
-                            <div class="create">05-02-2015</div>
-                        </li>
-                    </ul>
+                    <?php foreach($jobs as $job): ?>
+                        <ul class="job-listings">
+                            <li class="animated" data-animation="fadeInUp" data-animation-delay="100">
+                                <div class="title"> <span class="prof-photo"><a href="single.html"><img src="<?=assets_url('user/img/job.png');?>" alt=""></a></span> <span class="designation"> <a href="single.html"><?=$job->job_title?></a><br><?=$job->grade_name?></span> </div>
+                                <div class="location"><?=date('M-d-Y', strtotime(str_replace('-','/', $job->date_entered)));?></div>
+                                <div class="create"><?=date('M-d-Y', strtotime(str_replace('-','/', $job->deadline_date)));?></div>
+                                <div class="actions"><a class="btn btn-primary pull-left" href="<?=base_url('jobs/job_apply/'.$job->job_id.'')?>">Job Details</a>&nbsp;&nbsp;<a class="btn btn-success" href="javascript:;" onclick="add_by_get_method('<?=base_url('jobs/apply_for_job');?>',<?=$job->job_id;?>)">Apply</a></div>
+                            </li>
+                        </ul>
+                    <?php endforeach; ?>
                 </div>
                 <div class="col-md-12 job-breadcrumbs animated" data-animation="fadeInUp" data-animation-delay="100">
                     <ul class="breadcrumbs">
-                        <li><a href="#" class="active">1</a>
-                        </li>
-                        <li><a href="#">2</a>
-                        </li>
-                        <li><a href="#">3</a>
-                        </li>
-                        <li><a href="#">4</a>
-                        </li>
-                        <li><a href="#">5</a>
-                        </li>
+                        <?=$pagination;?>
                     </ul>
                 </div>
+                   
             </div>
         </div>
     </section>
@@ -130,3 +94,16 @@
             </div>
         </div>
     </section>
+<?php
+function getScripts()
+{
+    ob_start();
+?>
+<?=script_tag('user/js/common.js');?>
+<?php
+
+    $content = ob_get_contents();
+    ob_end_clean();
+    echo $content;
+}
+?>

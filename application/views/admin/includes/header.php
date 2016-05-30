@@ -30,7 +30,9 @@
         <?=script_tag('https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js',true);?>
         <?=script_tag('https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js',true);?>
         <![endif]-->
-        
+        <script type="text/javascript">
+        var global = { base_url : "<?=base_url(); ?>" }
+    </script>
     </head>
 
 

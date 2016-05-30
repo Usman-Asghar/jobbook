@@ -26,7 +26,7 @@ define('TBL_ADMIN','admin');
 define('TBL_USERS','users');
 define('TBL_JOBS','jobs');
 define('TBL_GRADES','grades');
-
+define('TBL_USERS_TO_JOBS','user_to_jobs');
 
 
 //Defining Page segments 

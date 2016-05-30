@@ -30,8 +30,6 @@
                                     ?>
                                     <li><a href="<?=  base_url('main/login')?>" data-popup="facebox">Login</a>
                                     </li>
-                                    <li><a href="<?=  base_url('main/register')?>">Register</a>
-                                    </li>
                                     <?php
                                     }
                                 ?>
@@ -46,8 +44,7 @@
                         <h1>DreamJobs</h1>
                         <h2>creative professionals</h2>
                         <p class="medium">Posting a job is a fantastic, simple way to reach talented web and creative professionals and until further notice it's entirely free! </p>
-                        <div class="post-job"><a href="submit-job.html" class="post-job-btn">POST A JOB</a>
-                        </div>
+                       
                     </div>
                 </div>
             </div>

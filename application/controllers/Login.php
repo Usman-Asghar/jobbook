@@ -12,8 +12,8 @@ class Login extends CI_Controller {
 	function __construct()
     {
         parent::__construct();
-		if($this->session->userdata('admin_logged_in')){
-			redirect('home');
+		if($this->session->userdata('user_logged_in')){
+			redirect('main');
 			exit();
 		}
     }
@@ -41,6 +41,7 @@ class Login extends CI_Controller {
 			if($validated){
 				$sess_array = array(
 						'user_id' => $validated->user_id,
+                                                'grade_id' => $validated->grade_id,
 						'name' => $validated->fname .' '.$validated->lname,
 						'fname' => $validated->fname,
 						'lname' => $validated->lname,

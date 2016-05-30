@@ -15,8 +15,8 @@ class License extends CI_Controller {
 	function __construct()
     {
         parent::__construct();
-		if(!$this->session->userdata('admin_logged_in')){
-			redirect('admin-login');
+		if(!$this->session->userdata('user_logged_in')){
+			redirect('main');
 		}
 		$this->load->model('admin','Admin_Model');
     }

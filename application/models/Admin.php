@@ -35,4 +35,15 @@ class Admin extends CI_Model {
 		return	$query = $this->db->get()->result();
 	}
 	
+        public function get_user_jobs($conditions)
+	{
+		$this->db->select('yh_user_to_jobs.user_id,yh_jobs.job_id,yh_jobs.grade_id,job_title,job_desc,start_date,deadline_date,fname,lname,grade_name');
+		$this->db->from(TBL_JOBS);
+		$this->db->join('yh_user_to_jobs', 'yh_user_to_jobs.job_id = yh_jobs.job_id','inner');
+                $this->db->join('yh_users', 'yh_users.user_id = yh_user_to_jobs.user_id','inner');
+                $this->db->join('yh_grades', 'yh_grades.grade_id = yh_jobs.grade_id','inner');
+		$this->db->where($conditions);
+		return $this->db->get()->result();
+	}
+        
 }// end of model

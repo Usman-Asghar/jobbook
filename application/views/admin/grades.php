@@ -101,16 +101,16 @@
 									   cellspacing="0" width="100%">
 									<thead>
 										<tr>
-											<th>Grade ID</th>
+											<th>Sr. No</th>
 											<th>Grade Name</th>
 											<th>Status</th>
 											<th>Actions</th>
 										</tr>
 									</thead>
 									<tbody>
-										<?php foreach($grades as $grade): ?>
+										<?php $count=1; foreach($grades as $grade): ?>
 										<tr>
-											<td><?=$grade->grade_id?></td>
+											<td><?=$count;?></td>
 											<td><?=$grade->grade_name?></td>
 											<td><?=$grade->grade_status == 1 ? 'Active' : 'Deactive' ?></td>
 											<td>
@@ -124,7 +124,7 @@
 											</div>
 											</td>
 										</tr>
-										<?php endforeach; ?>
+										<?php $count++; endforeach; ?>
 									</tbody>
 								</table>
 							</div>

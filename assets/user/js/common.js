@@ -11,10 +11,15 @@ function wait_n_hide(id){
 	},5000);
 }
 
-function notify_n_hide(id,msg){
+function notify_n_hide(id, msg, path){
+    path = typeof path !== 'undefined' ? path : '';
 	$('#'+id).html(msg).show("slow");
 	setTimeout(function(){
 		$('#'+id).hide("slow");
+		if(path !== '')
+		{
+			window.location = path;
+		}
 	},5000);
 	$('body').goTo();
 }
@@ -41,6 +46,26 @@ function add_request(){
 
 function close_it(id){
 	$("#"+id).hide('slow');
+}
+
+function add_by_get_method(url,id)
+{
+	$.ajax({
+		type: "POST",
+		async: false,
+		url: url,
+		data:{id: id},
+		success: function(response) {
+			response = JSON.parse(response);
+			if(response.success){
+				notify_n_hide('success_message',response.message,global.base_url + "jobs/");
+				
+			}else
+				notify_n_hide('error_message',response.message);
+		},
+		error : function(response){alert(response.responseText)}
+	});
+	return false;
 }
 
 function add_item(URL){
@@ -75,6 +100,7 @@ function edit_item(record_id, URL){
 			if(response.success){
 				var indexes = response.data;
 				for(x in indexes){
+					console.log(x);
 					$('#'+x).val(indexes[x]);
 				}
 				$("#update_form_holder").toggle('slow');

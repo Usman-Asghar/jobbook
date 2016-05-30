@@ -25,12 +25,6 @@ class Main extends CI_Controller {
             $this->load->front_template('login',$data);
 	}
         
-        public function register()
-	{
-            $data['page_title'] = 'Register Account';
-            $this->load->front_template('register',$data);
-	}
-        
         public function contact()
 	{
             $data['page_title'] = 'Contact Us';

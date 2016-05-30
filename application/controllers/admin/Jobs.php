@@ -24,7 +24,7 @@ class Jobs extends CI_Controller {
 	public function index()
 	{
 		$this->load->model('admin','Admin_Model');
-		$this->load->model('users','User_Model');
+		$this->load->model('user','User_Model');
 		
 		$data['page_title'] = 'Job Board';
 		$data['jobs'] = $this->Admin_Model->get_all_jobs_and_users( array('yh_jobs.job_status' => '1', 'yh_jobs.admin_id'=>$this->session->userdata('admin_id')) );

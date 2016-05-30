@@ -26,14 +26,20 @@
                             <li>
                                 <a href="<?=base_url('admin/home')?>" class="waves-effect waves-light active"><i class="md md-home"></i><span> Dashboard </span></a>
                             </li>
-							<li>
+                            <li>
+                                <a href="<?=base_url('admin/users')?>" class="waves-effect waves-light"><i class="md md-group"></i><span> Users </span></a>
+                            </li>
+                            <li>
                                 <a href="<?=base_url('admin/grades')?>" class="waves-effect waves-light"><i class="md md-home"></i><span> Grades </span></a>
                             </li>
                             <li>
                                 <a href="<?=base_url('admin/jobs')?>" class="waves-effect waves-light"><i class="md md-work"></i> Jobs </a>
                             </li>
-							<li>
-								<a href="<?=base_url('admin/jobs/calendar_view')?>" class="waves-effect"><i class="md md-event"></i><span> Calendar View</span></a>
+                            <li>
+                                <a href="<?=base_url('admin/jobs/calendar_view')?>" class="waves-effect"><i class="md md-event"></i><span> Calendar View</span></a>
+                            </li>
+                            <li>
+                                <a href="<?=base_url('admin/user_jobs')?>" class="waves-effect waves-light"><i class="md md-work"></i> User Jobs </a>
                             </li>
                             <!--
                             <li class="has_sub">

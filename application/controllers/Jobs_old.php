@@ -1,7 +1,7 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-class Jobs extends CI_Controller {
+class Jobs_old extends CI_Controller {
 
 	/**
 	 *  
@@ -13,17 +13,17 @@ class Jobs extends CI_Controller {
 	 */
 	 
 	function __construct()
-    {
-        parent::__construct();
-		if(!$this->session->userdata('user_logged_in')){
-			redirect('admin-login');
-			exit();
-		}
-    }
+        {
+            parent::__construct();
+                    if(!$this->session->userdata('user_logged_in')){
+                            redirect('main');
+                            exit();
+                    }
+        }
 	 
 	public function index()
 	{
-		$this->load->model('users','User_Model');
+		$this->load->model('user','User_Model');
 		
 		$data['page_title'] = 'Job Board';
 		$data['jobs'] = $this->User_Model->get_all_jobs( array('job_status' => '1','assigned_to'=>$this->session->userdata('user_id')) );
@@ -38,7 +38,7 @@ class Jobs extends CI_Controller {
 	
 	public function get_calendar_jobs()
 	{
-		$this->load->model('users','User_Model');
+		$this->load->model('user','User_Model');
 		$data['jobs'] = $this->User_Model->get_all_jobs( array('job_status' => '1','assigned_to'=>$this->session->userdata('user_id')) );
 		$calendar_events = array();
 		

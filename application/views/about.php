@@ -1,5 +1,4 @@
-
-      <div class="wrapper" id="sb-site">
+    <div class="wrapper" id="sb-site">
          <section class="header-area about-banner">
             <div class="container">
                <div class="navigation-area clearfix">
@@ -19,8 +18,6 @@
                             ?>
                             <li><a href="<?=  base_url('main/login')?>" data-popup="facebox">Login</a>
                             </li>
-                            <li><a href="<?=  base_url('main/register')?>">Register</a>
-                            </li>
                             <?php
                             }
                         ?>
@@ -30,18 +27,7 @@
                <div class="logo-area"><a href="index.html"><img src="<?=assets_url('user/img/logo.png');?>" alt=""></a></div>
                <div class="banner-conts">
                   <h1>We are professionals</h1>
-                  <div class="post-job"><a href="submit-job.html" class="post-job-btn">POST A JOB</a></div>
                </div>
-            </div>
-            <div id="login-box">
-               <h3>Login</h3>
-               <hr>
-               <form>
-                  <p> <label>Email</label> <input type="text" class="input-area"> </p>
-                  <p> <label>Password</label> <input type="password" class="input-area"> </p>
-                  <p class="check-box"> <input id="checkbox1" type="checkbox" name="checkbox" value=""><label for="checkbox1"><span></span>Remember me</label> </p>
-                  <p> <input type="button" value="Login" class="input-button"> <span>Not member? </span><a href="#">Sign Up</a> </p>
-               </form>
             </div>
          </section>
          <section class="inner-headings">

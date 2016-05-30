@@ -21,8 +21,8 @@ class License_XHR extends CI_Controller {
 			exit;
 		}
 		
-		if(!$this->session->userdata('admin_logged_in')){
-			redirect('admin-login');
+		if(!$this->session->userdata('user_logged_in')){
+			redirect('main');
 			exit();
 		}
 

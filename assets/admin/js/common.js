@@ -4,14 +4,32 @@ $.fn.goTo = function() {
     }, 'fast');
     return this; // for chaining...
 }
+function changeStatus(url,job_id,user_id)
+{
+    $.ajax({
+            type: "POST",
+            async: false,
+            url: url,
+            data:{job_id: job_id,user_id:user_id},
+            success: function(response) {
+                    response = JSON.parse(response);
+                    if(response.success){
+                            notify_n_hide('success_message',response.message);
 
+                    }else
+                            notify_n_hide('error_message',response.message);
+            },
+            error : function(response){alert(response.responseText)}
+	});
+	return false;
+}
 function wait_n_hide(id){
 	setTimeout(function(){
 		$('#'+id).hide("slow");
 	},5000);
 }
 
-function notify_n_hide(id,msg){
+function notify_n_hide(id, msg){
 	$('#'+id).html(msg).show("slow");
 	setTimeout(function(){
 		$('#'+id).hide("slow");

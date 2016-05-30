@@ -52,8 +52,6 @@
                 else
                 {
                 ?>
-                <li><a href="<?=  base_url('main/register')?>">Register</a>
-                </li>
                 <li><a href="<?=  base_url('main/login')?>" data-popup="facebox">Login</a>
                 </li>
                 <?php

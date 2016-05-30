@@ -16,24 +16,57 @@ class jobs extends CI_Controller {
     {
         parent::__construct();
 		if(!$this->session->userdata('user_logged_in')){
-			redirect('main/login');
+			redirect('main');
 			exit();
 		}
+                $this->load->model('user','User_Model');
+                $this->load->library("pagination");
     }
 	 
 	public function index()
 	{	
-		$this->load->library("pagination");
+		echo $this->pagination->create_links();
+                
 		$data['page_title'] = 'Jobs Dashboard';
-		$this->load->front_template('jobs',$data);
+                $data['jobs'] = $this->User_Model->get_user_jobs(array('yh_jobs.assigned_to' => '0','yh_jobs.grade_id' => $this->session->userdata('grade_id')),0,$this->session->userdata('user_id'));
+                $config['base_url'] = base_url().'/jobs/index/page';
+                $config['total_rows'] = count($data['jobs']);
+                $config['per_page'] = 1;
+                $config['num_tag_open'] = '<li>';
+                $config['num_tag_close'] = '</li>';
+                $config['cur_tag_open'] = '<li class="active">';
+                $config['cur_tag_close'] = '<li>';
+                $this->pagination->initialize($config);
+                $data['pagination'] = $this->pagination->create_links();
+                $this->load->front_template('jobs',$data);
 	}
 	
-        public function job_apply()
+        public function job_apply($job_id)
 	{	
-		$this->load->library("pagination");
-		$data['page_title'] = 'Single Job';
-		$this->load->front_template('single',$data);
+            $data['page_title'] = 'Single Job';
+            $data['jobs'] = $this->User_Model->get_user_jobs(array('yh_jobs.assigned_to' => '0','yh_jobs.grade_id' => $this->session->userdata('grade_id')),$job_id,$this->session->userdata('grade_id'));
+            $this->load->front_template('single',$data);
 	}
+        
+        public function apply_for_job()
+        {
+            $response = array('success'=>false,'message'=>'');
+            $added=$this->Common_Model->add(TBL_USERS_TO_JOBS,
+            array(
+                      'job_id'=> $this->security->xss_clean($this->input->post('id')),
+                      'user_id' => $this->session->userdata('user_id')
+                    )
+            );
+            if($added)
+            {
+                    $response['message'] = 'You have Applied for Job Successfully!';
+                    $response['success'] = true;
+            }
+            else $response['message'] = 'Failed to Apply for Job!';
+            
+            echo json_encode($response);
+            
+        }
         
 	public function profile()
 	{	

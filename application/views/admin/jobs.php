@@ -202,7 +202,8 @@
 									   cellspacing="0" width="100%">
 									<thead>
 										<tr>
-											<th>Job Grade</th>
+											<th>Sr. No</th>
+                                                                                        <th>Job Grade</th>
 											<th>Title</th>
 											<th>Assigned To</th>
 											<th>Description</th>
@@ -216,11 +217,12 @@
 											<tr class="alert alert-warning text-center">
 												<td colspan="10"><em>No job found in the system.</em></td>
 											</tr>
-										<?php endif; ?>
+										<?php endif; $count=1;?>
 
 										<?php foreach($jobs as $job): ?>
 										<tr>
-											<td><?=$job->grade_name?></td>
+											<td><?=$count?></td>
+                                                                                        <td><?=$job->grade_name?></td>
 											<td><?=$job->job_title?></td>
 											<td><?=ucfirst($job->fname);?> <?=ucfirst($job->lname);?></td>
 											<td><?=$job->job_desc?></td>
@@ -237,7 +239,7 @@
 											</div>
 											</td>
 										</tr>
-										<?php endforeach; ?>
+										<?php $count++; endforeach; ?>
 									</tbody>
 								</table>
 							</div>
@@ -276,11 +278,11 @@ $(document).ready(function() {
     { 
         if($(this).val() == 0)
         {
-            dataTable.fnFilter('',0);
+            dataTable.fnFilter('',1);
         }
         else
         {
-            dataTable.fnFilter( $(this).val(),0,true,false); 
+            dataTable.fnFilter( $(this).val(),1,true,false); 
         }
     });
 });
