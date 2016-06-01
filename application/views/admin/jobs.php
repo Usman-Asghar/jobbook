@@ -224,10 +224,10 @@
 											<td><?=$count?></td>
                                                                                         <td><?=$job->grade_name?></td>
 											<td><?=$job->job_title?></td>
-											<td><?=ucfirst($job->fname);?> <?=ucfirst($job->lname);?></td>
+											<td><?php if(!$job->fname): ?>Not Assigned<?php endif; ?><?=ucfirst($job->fname);?> <?=ucfirst($job->lname);?></td>
 											<td><?=$job->job_desc?></td>
-											<td><?=$job->start_date?></td>
-											<td><?=$job->deadline_date?></td>
+											<td><?=date('M-d-Y', strtotime(str_replace('-','/', $job->start_date)));?></td>
+											<td><?=date('M-d-Y', strtotime(str_replace('-','/', $job->deadline_date)));?></td>
 											<td>
 												<div class="btn-group-sm">
 												<a href="#" onclick="edit_item(<?=$job->job_id;?>,'<?=base_url('admin/jobs_XHR/update')?>');" class="btn btn-success waves-effect waves-light tooltips" data-placement="top" data-toggle="tooltip" data-original-title="Edit">

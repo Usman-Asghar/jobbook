@@ -31,20 +31,22 @@
     <header class="sb-slidebar sb-left">
         <nav class="main-menu">
             <ul>
-                <li><a href="<?=  base_url('main')?>" class="active">HOME</a>
+                <li><a href="<?=  base_url('main')?>" <?php if(isset($status)){if($status==1){echo "class='active'";}} ?>>HOME</a>
                 </li>
-                <li><a href="<?=  base_url('main/about')?>">ABOUT</a>
+                <li><a href="<?=  base_url('main/about')?>" <?php if(isset($status)){if($status==2){echo "class='active'";}} ?>>ABOUT</a>
                 </li>
-                <li><a href="<?=  base_url('main/contact')?>">Contact</a>
+                <li><a href="<?=  base_url('main/contact')?>" <?php if(isset($status)){if($status==3){echo "class='active'";}} ?>>Contact</a>
                 </li>
                 <?php
                 if($this->session->userdata('user_logged_in'))
                 {
                 ?>
-                    <li><a href="<?=  base_url('jobs')?>">Job</a>
+                    <li><a href="<?=  base_url('jobs')?>" <?php if(isset($status)){if($status==4){echo "class='active'";}} ?>>Open Jobs</a>
                     </li>
-                    <li><a href="<?=  base_url('main/profile')?>">Profile</a>
+                    <li><a href="<?=  base_url('jobs/applied_jobs')?>" <?php if(isset($status)){if($status==5){echo "class='active'";}} ?>>Applied Jobs</a>
                     </li>
+                    <!--<li><a href="<?=  base_url('main/profile')?>" >Profile</a>
+                    </li>-->
                     <li><a href="<?=  base_url('main/logout')?>">Logout</a>
                     </li>
                 <?php

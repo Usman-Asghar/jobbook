@@ -28,6 +28,7 @@ class Users extends CI_Controller {
             $data['page_title'] = 'Users';
             $data['users'] = $this->User_Model->get_all_users( array('profile_status' => '1','admin_id'=>$this->session->userdata('admin_id')) );
             $data['grades'] = $this->Admin_Model->get_all_grades(array('grade_status' => '1'));
+            $data['status'] = 2;
             $this->load->admin_template('users',$data);
 	}
         public function add_new(){

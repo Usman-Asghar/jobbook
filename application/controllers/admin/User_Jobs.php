@@ -27,6 +27,7 @@ class User_Jobs extends CI_Controller {
             $data['page_title'] = 'User Jobs';
             $data['jobs'] = $this->Admin_Model->get_user_jobs( array('yh_jobs.job_status' => '1','yh_jobs.assigned_to' => '0', 'yh_jobs.admin_id'=>$this->session->userdata('admin_id')) );
             $data['grades'] = $this->Admin_Model->get_all_grades(array('grade_status' => '1'));
+            $data['status'] = 6;
             $this->load->admin_template('user_jobs',$data);
 	}
         

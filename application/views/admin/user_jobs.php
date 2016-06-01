@@ -43,6 +43,7 @@
                                                                                     <th>Applied By</th>
                                                                                     <th>Start Date</th>
                                                                                     <th>End Date</th>
+                                                                                    <th>Hours</th>
                                                                                     <th>Actions</th>
 										</tr>
 									</thead>
@@ -61,13 +62,14 @@
 											<td><?=$job->job_desc?></td>
 											<td><?=ucfirst($job->fname);?> <?=ucfirst($job->lname);?></td>
 											<td><?=date('M-d-Y', strtotime(str_replace('-','/', $job->start_date)));?></td>
-											<td><?=date('M-d-Y', strtotime(str_replace('-','/', $job->deadline_date)));?></td>
+											<td><?=date('M-d-Y', strtotime(str_replace('-','/', $job->end_date)));?></td>
+                                                                                        <td><?=$job->no_of_hours?></td>
 											<td>
 												<div class="btn-group-sm">
 												<a href="javascript:;" onclick="changeStatus('<?=base_url('admin/user_jobs/approve_user_job');?>',<?=$job->job_id;?>,<?=$job->user_id;?>)" class="btn btn-success waves-effect waves-light tooltips" data-placement="top" data-toggle="tooltip" data-original-title="Approve">
                                                                                                     Approve
 												</a>
-                                                                                                <a href="javascript:;" onclick="changeStatus('<?=base_url('admin/user_jobs/reject_user_job');?>',<?=$job->job_id;?>,<?=$job->user_id;?>)" class="btn btn-danger waves-effect waves-light tooltips" data-placement="top" data-toggle="tooltip" data-original-title="Approve">
+                                                                                                <a href="javascript:;" onclick="changeStatus('<?=base_url('admin/user_jobs/reject_user_job');?>',<?=$job->job_id;?>,<?=$job->user_id;?>)" class="btn btn-danger waves-effect waves-light tooltips" data-placement="top" data-toggle="tooltip" data-original-title="Reject">
                                                                                                     Reject
 												</a>
 											</div>

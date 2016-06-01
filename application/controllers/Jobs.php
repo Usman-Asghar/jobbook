@@ -27,20 +27,42 @@ class jobs extends CI_Controller {
 	{	
 		echo $this->pagination->create_links();
                 
-		$data['page_title'] = 'Jobs Dashboard';
-                $data['jobs'] = $this->User_Model->get_user_jobs(array('yh_jobs.assigned_to' => '0','yh_jobs.grade_id' => $this->session->userdata('grade_id')),0,$this->session->userdata('user_id'));
+		$data['page_title'] = 'Jobs Dashboard'; 
                 $config['base_url'] = base_url().'/jobs/index/page';
-                $config['total_rows'] = count($data['jobs']);
-                $config['per_page'] = 1;
+                $config['total_rows'] = $this->User_Model->get_user_jobs_count(array('yh_jobs.assigned_to' => '0','yh_jobs.grade_id' => $this->session->userdata('grade_id')),0,$this->session->userdata('user_id'));
+                $config['per_page'] = 5;
+                
                 $config['num_tag_open'] = '<li>';
                 $config['num_tag_close'] = '</li>';
                 $config['cur_tag_open'] = '<li class="active">';
                 $config['cur_tag_close'] = '<li>';
                 $this->pagination->initialize($config);
+                $page = ($this->uri->segment(4)) ? $this->uri->segment(4) : 0;
+                $data['jobs'] = $this->User_Model->get_user_jobs(array('yh_jobs.assigned_to' => '0','yh_jobs.grade_id' => $this->session->userdata('grade_id')),0,$this->session->userdata('user_id'),$config["per_page"], $page);
                 $data['pagination'] = $this->pagination->create_links();
+                $data['status'] = 4;
                 $this->load->front_template('jobs',$data);
 	}
-	
+        
+	public function applied_jobs()
+	{	
+		echo $this->pagination->create_links();
+                $data['page_title'] = 'Jobs Dashboard';
+                $config['base_url'] = base_url().'/jobs/applied_jobs/page';
+                $config['total_rows'] = $this->User_Model->get_user_applied_jobs_count(array('yh_jobs.grade_id' => $this->session->userdata('grade_id')),0,$this->session->userdata('user_id'));
+                $config['per_page'] = 5;
+                $config['num_tag_open'] = '<li>';
+                $config['num_tag_close'] = '</li>';
+                $config['cur_tag_open'] = '<li class="active">';
+                $config['cur_tag_close'] = '<li>';
+                $this->pagination->initialize($config);
+                $page = ($this->uri->segment(4)) ? $this->uri->segment(4) : 0;
+                $data['jobs'] = $this->User_Model->get_user_applied_jobs(array('yh_jobs.grade_id' => $this->session->userdata('grade_id')),0,$this->session->userdata('user_id'),$config["per_page"],$page);
+                $data['pagination'] = $this->pagination->create_links();
+                $data['status'] = 5;
+                $this->load->front_template('applied_jobs',$data);
+	}
+        
         public function job_apply($job_id)
 	{	
             $data['page_title'] = 'Single Job';
@@ -48,24 +70,50 @@ class jobs extends CI_Controller {
             $this->load->front_template('single',$data);
 	}
         
+        public function job_applied_detail($job_id)
+	{	
+            $data['page_title'] = 'Single Job';
+            $data['jobs'] = $this->User_Model->get_user_jobs(array('yh_jobs.assigned_to' => '1','yh_jobs.grade_id' => $this->session->userdata('grade_id')),$job_id,$this->session->userdata('grade_id'));
+            $this->load->front_template('single',$data);
+	}
+        
         public function apply_for_job()
         {
             $response = array('success'=>false,'message'=>'');
-            $added=$this->Common_Model->add(TBL_USERS_TO_JOBS,
-            array(
-                      'job_id'=> $this->security->xss_clean($this->input->post('id')),
-                      'user_id' => $this->session->userdata('user_id')
-                    )
-            );
-            if($added)
-            {
-                    $response['message'] = 'You have Applied for Job Successfully!';
-                    $response['success'] = true;
+            $this->form_validation->set_rules('start_date', 'Deadline Date', 'trim|required|max_length[15]');
+            $this->form_validation->set_rules('end_date', 'End Date', 'trim|required|max_length[15]');
+            $this->form_validation->set_rules('no_of_hours', 'No of Hours', 'trim|required|ucfirst|max_length[15]');
+            if($this->form_validation->run() == FALSE)
+            { 
+                $response['message'] = validation_errors();
             }
-            else $response['message'] = 'Failed to Apply for Job!';
-            
-            echo json_encode($response);
-            
+            else
+            {
+                $errors = array();
+
+                if(!empty($errors))
+                {
+                        $response['message'] = $errors;
+                }
+                else
+                {
+                    $added=$this->Common_Model->add(TBL_USERS_TO_JOBS,
+                    array(
+                            'user_id' => $this->session->userdata('user_id'),
+                            'job_id'=> $this->security->xss_clean($this->input->post('jobId')),
+                            'start_date'=> $this->common_functions->dateToSQL( $this->security->xss_clean($this->input->post('start_date')) ),
+                            'end_date'=> $this->common_functions->dateToSQL( $this->security->xss_clean($this->input->post('end_date')) ),
+                            'no_of_hours'=> $this->security->xss_clean($this->input->post('no_of_hours'))
+                        )
+                    );
+                        if($added){
+                            $response['message'] = 'You have Applied for Job Successfully!';
+                            $response['success'] = true;
+                        }
+                        else $response['message'] = 'Failed to Apply for Job!';
+                }
+            }
+            echo json_encode($response);    
         }
         
 	public function profile()

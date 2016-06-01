@@ -24,7 +24,10 @@
                         <h5 class="uppercase animated" data-animation="fadeInUp" data-animation-delay="200"><i class="fi-mountains"></i> <?php echo $jobs->grade_name;?></h5>
                         <hr class="animated" data-animation="fadeInUp" data-animation-delay="300"> </div>
                 </div>
-                <div class="profile-btns-main"> <a class="apply-btn" href="javascript:;" onclick="add_by_get_method('<?=base_url('jobs/apply_for_job');?>',<?=$jobs->job_id;?>)">Apply</a></div>
+                <?php if($jobs->assigned_to == 0): ?>
+                    <div class="profile-btns-main"> <a class="apply-btn" href="javascript:;" onclick="add_by_get_method('<?=base_url('jobs/apply_for_job');?>',<?=$jobs->job_id;?>)">Apply</a></div>
+                <?php endif; ?>
+                
             </div>
         </div>
     </section>

@@ -1,4 +1,3 @@
-<?=link_tag('admin/plugins/bootstrap-datepicker/dist/css/bootstrap-datepicker.min.css');?>
 <div class="wrapper" id="sb-site">
     <section class="header-area-inner">
         <div class="container">
@@ -36,11 +35,13 @@
             <div class="row clearfix">
                 <div class="col-md-12">
                     <div class="headings-area">
+                    <div class="alert alert-success alert-dismissable" id="success_message"></div>
+                    <div class="alert alert-danger alert-dismissable" id="error_message"></div>
                     <div class="job-list-head clearfix animated" data-animation="fadeInUp" data-animation-delay="100">
                         <div class="title">job title</div>
                         <div class="location">Create at</div>
                         <div class="create">Deadline</div>
-                        <div class="actions">Actions</div>
+                        <div class="actions"> Status &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Actions</div>
                     </div>
                     <?php if(!$jobs): ?>
                         <ul class="job-listings">
@@ -53,7 +54,7 @@
                                 <div class="title"> <span class="prof-photo"><a href="single.html"><img src="<?=assets_url('user/img/job.png');?>" alt=""></a></span> <span class="designation"> <a href="single.html"><?=$job->job_title?></a><br><?=$job->grade_name?></span> </div>
                                 <div class="location"><?=date('M-d-Y', strtotime(str_replace('-','/', $job->date_entered)));?></div>
                                 <div class="create"><?=date('M-d-Y', strtotime(str_replace('-','/', $job->deadline_date)));?></div>
-                                <div class="actions"><a class="btn btn-primary pull-left" href="<?=base_url('jobs/job_apply/'.$job->job_id.'')?>">Job Details</a>&nbsp;&nbsp;<a class="btn btn-success" id="job_apply_button" data-toggle="modal" data-target="#jobApplyModal" data-job_id="<?=$job->job_id;?>">Apply</a></div>
+                                <div class="actions"><?php if($job->approved == 0 && $job->rejected == 0){ ?> <span class="btn btn-primary">Pending </span><?php } else if($job->approved == 1 && $job->rejected == 0){ ?> <span class="btn btn-success">Approved </span><?php } else if($job->approved == 0 && $job->rejected == 1){ ?> <span class="btn btn-danger">Rejected </span><?php } ?> <a style="margin-left: 30px;" class="btn btn-primary" href="<?=base_url('jobs/job_applied_detail/'.$job->job_id.'')?>">Job Details</a></div>
                             </li>
                         </ul>
                     <?php endforeach; ?>
@@ -98,58 +99,12 @@
             </div>
         </div>
     </section>
-    
 <?php
 function getScripts()
 {
     ob_start();
 ?>
-<?=script_tag('admin/plugins/bootstrap-datepicker/js/bootstrap-datepicker.js');?>
 <?=script_tag('user/js/common.js');?>
-<div class="modal fade" id="jobApplyModal" tabindex="-1" role="dialog" aria-labelledby="jobApplyModalLabel">
-  <div class="modal-dialog" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-        <h4 class="modal-title" id="exampleModalLabel">Apply for Job</h4>
-      </div>
-    <div class="alert alert-success alert-dismissable" id="success_message"></div>
-    <div class="alert alert-danger alert-dismissable" id="error_message"></div>
-    <form name="add_form" id="add_form" onsubmit="return add_item('<?=base_url('jobs/apply_for_job');?>');" >
-      <div class="modal-body">
-          <input type="hidden" class="form-control" id="jobId" name="jobId">
-          <div class="form-group">
-            <label for="start_date" class="control-label">Start Date</label>
-            <input type="text" class="form-control" id="start_date" name="start_date" required="required">
-          </div>
-          <div class="form-group">
-            <label for="end_date" class="control-label">End Date</label>
-            <input type="text" class="form-control" id="end_date" name="end_date" required="required">
-          </div>
-          <div class="form-group">
-            <label for="no_of_hours" class="control-label">No of Hous</label>
-            <input type="number" class="form-control" id="no_of_hours" name="no_of_hours" required="required">
-          </div>
-        
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-        <input type="submit" name="submit" class="btn btn-primary" id="submit" value="Submit"/>
-      </div>
-    </form>
-    </div>
-  </div>
-</div>
-<script>
-$('#start_date, #end_date').datepicker();
-$('#job_apply_button').on('click', function() 
-{
-  var button = $('#job_apply_button');
-  var job_id = button.data('job_id');
-   $('#jobId').val(job_id);
-});
-
-</script>
 <?php
 
     $content = ob_get_contents();

@@ -28,6 +28,7 @@ class Grades extends CI_Controller {
 		
 		$data['page_title'] = 'Grade Board';
 		$data['grades'] = $this->Admin_Model->get_all_grades(array('grade_status' => '1'));
+                $data['status'] = 3;
 		$this->load->admin_template('grades',$data);
 	}
 	

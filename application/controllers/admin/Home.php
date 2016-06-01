@@ -25,6 +25,7 @@ class Home extends CI_Controller {
 	{	
 		$this->load->library("pagination");
 		$data['page_title'] = 'Admin Dashboard';
+                $data['status'] = 1;
 		$this->load->admin_template('dashboard',$data);
 	}
 	

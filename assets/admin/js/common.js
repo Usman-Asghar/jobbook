@@ -14,10 +14,10 @@ function changeStatus(url,job_id,user_id)
             success: function(response) {
                     response = JSON.parse(response);
                     if(response.success){
-                            notify_n_hide('success_message',response.message);
+                            notify_n_hide('success_message',response.message,1);
 
                     }else
-                            notify_n_hide('error_message',response.message);
+                            notify_n_hide('error_message',response.message,1);
             },
             error : function(response){alert(response.responseText)}
 	});
@@ -29,13 +29,19 @@ function wait_n_hide(id){
 	},5000);
 }
 
-function notify_n_hide(id, msg){
+function notify_n_hide(id, msg, path){
+    path = typeof path !== 'undefined' ? path : '';
 	$('#'+id).html(msg).show("slow");
 	setTimeout(function(){
 		$('#'+id).hide("slow");
+		if(path != '')
+		{
+			window.location.reload();
+		}
 	},5000);
 	$('body').goTo();
 }
+
 
 function close_n_refresh(id,ref){
 	

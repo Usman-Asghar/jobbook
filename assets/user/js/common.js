@@ -16,9 +16,9 @@ function notify_n_hide(id, msg, path){
 	$('#'+id).html(msg).show("slow");
 	setTimeout(function(){
 		$('#'+id).hide("slow");
-		if(path !== '')
+		if(path != '')
 		{
-			window.location = path;
+			window.location.reload();
 		}
 	},5000);
 	$('body').goTo();
@@ -77,7 +77,7 @@ function add_item(URL){
 		success: function(response) {
 			response = JSON.parse(response);
 			if(response.success){
-				notify_n_hide('success_message',response.message);
+				notify_n_hide('success_message',response.message,1);
 				close_n_refresh('add_form_holder','content');
 			}else
 				notify_n_hide('error_message',response.message);

@@ -20,7 +20,20 @@ class User extends CI_Model {
 		return $this->db->get_where(TBL_JOBS, $conditions)->result();
 	}
         
-	public function get_user_jobs($conditions,$job_id,$user_id){
+	public function get_user_jobs_count($conditions,$job_id,$user_id){
+            $this->db->select('yh_grades.*,yh_jobs.*');
+            $this->db->from(TBL_JOBS);
+            $this->db->join('yh_grades', 'yh_grades.grade_id = yh_jobs.grade_id','left');
+            $this->db->where($conditions);
+            $q = $this->db->where('yh_jobs.job_id NOT IN (SELECT job_id FROM yh_user_to_jobs WHERE user_id= '.$user_id.')', NULL, FALSE);
+            return $q -> count_all_results(); 
+	}
+        
+        public function get_user_jobs($conditions,$job_id,$user_id,$limit=0, $start=0){
+            if($job_id == 0)
+            {
+                $this->db->limit($limit, $start);
+            }
             $this->db->select('yh_grades.*,yh_jobs.*');
             $this->db->from(TBL_JOBS);
             $this->db->join('yh_grades', 'yh_grades.grade_id = yh_jobs.grade_id','left');
@@ -36,4 +49,26 @@ class User extends CI_Model {
                 return  $this->db->get()->result();
             }   
 	}
+        
+        public function get_user_applied_jobs_count($conditions,$job_id,$user_id){
+            $this->db->select('yh_grades.*,yh_jobs.*,yh_user_to_jobs.*');
+            $this->db->from(TBL_JOBS);
+            $this->db->join('yh_grades', 'yh_grades.grade_id = yh_jobs.grade_id','left');
+            $this->db->join('yh_user_to_jobs', 'yh_user_to_jobs.job_id = yh_jobs.job_id','left');
+            $this->db->where($conditions);
+            $q = $this->db->where("yh_user_to_jobs.approved!='0' OR yh_user_to_jobs.rejected!='0'");
+            return $q->count_all_results();
+	}
+        
+        public function get_user_applied_jobs($conditions,$job_id,$user_id,$limit, $start){
+            $this->db->limit($limit, $start);
+            $this->db->select('yh_grades.*,yh_jobs.*,yh_user_to_jobs.*');
+            $this->db->from(TBL_JOBS);
+            $this->db->join('yh_grades', 'yh_grades.grade_id = yh_jobs.grade_id','left');
+            $this->db->join('yh_user_to_jobs', 'yh_user_to_jobs.job_id = yh_jobs.job_id','left');
+            $this->db->where($conditions);
+            $this->db->where("yh_user_to_jobs.approved!='0' OR yh_user_to_jobs.rejected!='0'");
+            return $this->db->get()->result(); 
+	}
+        
 }// end of model

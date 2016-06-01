@@ -16,6 +16,7 @@ class Main extends CI_Controller {
 	public function index()
 	{
             $data['page_title'] = 'Home Page';
+            $data['status'] = 1;
             $this->load->front_template('index',$data);
 	}
         
@@ -28,6 +29,7 @@ class Main extends CI_Controller {
         public function contact()
 	{
             $data['page_title'] = 'Contact Us';
+            $data['status'] = 3;
             $this->load->front_template('contact',$data);
 	}
         
@@ -56,6 +58,7 @@ class Main extends CI_Controller {
         public function about()
 	{
             $data['page_title'] = 'About Us';
+            $data['status'] = 2;
             $this->load->front_template('about',$data);
 	}
         
