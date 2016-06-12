@@ -57,7 +57,7 @@ class jobs extends CI_Controller {
                 $config['cur_tag_close'] = '<li>';
                 $this->pagination->initialize($config);
                 $page = ($this->uri->segment(4)) ? $this->uri->segment(4) : 0;
-                $data['jobs'] = $this->User_Model->get_user_applied_jobs(array('yh_jobs.grade_id' => $this->session->userdata('grade_id')),0,$this->session->userdata('user_id'),$config["per_page"],$page);
+                $data['jobs'] = $this->User_Model->get_user_applied_jobs(array('yh_user_to_jobs.user_id'=>$this->session->userdata('user_id'),'yh_jobs.grade_id' => $this->session->userdata('grade_id')),0,$this->session->userdata('user_id'),$config["per_page"],$page);
                 $data['pagination'] = $this->pagination->create_links();
                 $data['status'] = 5;
                 $this->load->front_template('applied_jobs',$data);
@@ -66,14 +66,25 @@ class jobs extends CI_Controller {
         public function job_apply($job_id)
 	{	
             $data['page_title'] = 'Single Job';
-            $data['jobs'] = $this->User_Model->get_user_jobs(array('yh_jobs.assigned_to' => '0','yh_jobs.grade_id' => $this->session->userdata('grade_id')),$job_id,$this->session->userdata('grade_id'));
+            $data['jobs'] = $this->User_Model->get_user_jobs(array('yh_jobs.grade_id' => $this->session->userdata('grade_id')),$job_id,$this->session->userdata('grade_id'));
+            $data['public_attachments'] = $this->User_Model->get_public_attachments(array('is_public' => '1','job_id'=>$job_id));
             $this->load->front_template('single',$data);
 	}
+        
+        public function download($file_address)
+	{	
+             $this->load->helper('download');
+             $data = file_get_contents("./uploads/".$file_address); // Read the file's contents
+             $name = $file_address;
+             force_download($name, $data);
+        }
         
         public function job_applied_detail($job_id)
 	{	
             $data['page_title'] = 'Single Job';
-            $data['jobs'] = $this->User_Model->get_user_jobs(array('yh_jobs.assigned_to' => '1','yh_jobs.grade_id' => $this->session->userdata('grade_id')),$job_id,$this->session->userdata('grade_id'));
+            $data['jobs'] = $this->User_Model->get_user_jobs_after_applied(array('yh_user_to_jobs.user_id'=>$this->session->userdata('user_id'),'yh_jobs.grade_id' => $this->session->userdata('grade_id')),$job_id,$this->session->userdata('grade_id'));
+            $data['public_attachments'] = $this->User_Model->get_public_attachments(array('is_public' => '1','job_id'=>$job_id));
+            $data['private_attachments'] = $this->User_Model->get_public_attachments(array('is_public' => '0','job_id'=>$job_id));
             $this->load->front_template('single',$data);
 	}
         

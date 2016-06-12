@@ -1,7 +1,9 @@
 <?=link_tag('admin/plugins/bootstrap-datepicker/dist/css/bootstrap-datepicker.min.css');?>
 <?=link_tag('admin/plugins/bootstrap-selectable/css/bootstrap-select.min.css');?>
 <?=link_tag('admin/plugins/datatables/jquery.dataTables.min.css');?>
-
+<?=link_tag('admin/js/lib/uploadify.css');?>
+<?php $this->session->set_userdata('privateFiles', array()); ?>
+<?php $this->session->set_userdata('publicFiles', array()); ?>
 <!-- Begin page -->
 <div id="wrapper">
 	<div class="container">
@@ -15,7 +17,7 @@
 							<div class="panel-heading">
 								<h3 class="panel-title">
 									Jobs Listing
-									<a href="javascript:add_request();" class="pull-right" title="Add"><i class="glyphicon glyphicon-plus" class="plus"></i></a>
+                                                                        <a href="javascript:add_request();" class="pull-right" title="Add"><i class="glyphicon glyphicon-plus" class="plus"></i></a>
 								</h3>                                        
 							</div>
 
@@ -54,12 +56,6 @@
 											</div>
 										</div>
 										<div class="row">
-											<!--<div class="col-sm-6">
-												<div class="form-group">
-													<label for="start_date">Start Date</label>
-													<input type="text" class="form-control" placeholder="Job Opening Date" name="start_date" id="start_date" />
-												</div>
-											</div>-->
 											<div class="col-sm-6">
 												<div class="form-group">
 													<label for="deadline_date">Deadline Date</label>
@@ -73,25 +69,23 @@
 												</div>
 											</div> 
 										</div>
-										<!--<div class="row">
-											                                                   
-										</div>-->
-										<!--<div class="row">
+                                                                            <div class="row">
+											<div class="col-sm-6">
+                                                                                            <div class="form-group">
+                                                                                                <label for="deadline_date">Public Attachments</label>
+                                                                                                <div class="uploadify-queue" id="file-queue-public"></div>
+                                                                                                <input type="file" name="userfile" id="upload_btn_public" />
+                                                                                            </div>
+											</div>
 											<div class="col-sm-6">
 												<div class="form-group">
-													<label for="assigned_to">Assigned To</label>
-													<select class="form-control selectpicker" name="assigned_to" id="assigned_to">
-														<option value=""> - Select - </option>
-														<?php foreach($users as $u): ?>
-															<option value="<?=$u->user_id?>" >
-																<?=$u->fname.' '.$u->lname?>
-															</option>
-														<?php endforeach; ?>
-													</select>
-												</div>
-											</div>
-										</div>-->                                                
-										<div class="row" >
+													<label for="job_desc">Private Attachments</label>
+                                                                                                        <div class="uploadify-queue" id="file-queue-private"></div>
+                                                                                                        <input type="file" name="userfile" id="upload_btn_private" />
+                                                                                              </div>
+											</div> 
+										</div>
+                                                                                <div class="row" >
 											<div class="col-sm-6">
 												<div class="input-group">
 													<input type="submit" name="submit" class="btn btn-primary" id="submit" value="Add"/>&nbsp;
@@ -99,6 +93,7 @@
 												</div>
 											</div>
 										</div>
+                                                                                
 									</form>
 								</div>                              
 							  </div>
@@ -265,12 +260,10 @@ function getScripts()
 <?=script_tag('admin/plugins/datatables/jquery.dataTables.min.js');?>
 <?=script_tag('admin/plugins/datatables/dataTables.bootstrap.js');?>
 <script src="//cdn.datatables.net/plug-ins/1.10.11/api/fnFilterClear.js"></script>
-<script>
-$('.selectpicker').selectpicker({
-  style: 'btn-info',
-  liveSearch:true
-});
 
+<?=script_tag('admin/js/lib/jquery.uploadify-3.1.min.js');?>  
+
+<script>
 $(document).ready(function() {
     var dataTable = $('#datatable').dataTable();
     
@@ -285,6 +278,65 @@ $(document).ready(function() {
             dataTable.fnFilter( $(this).val(),1,true,false); 
         }
     });
+
+ $('#upload_btn_private').uploadify({
+  'debug'   : false,
+  'swf'   : '<?php echo base_url() ?>assets/admin/js/lib/uploadify.swf',
+  'uploader'  : '<?php echo base_url('admin/jobs_XHR/uploadprivateFiles')?>',
+  'cancelImage' : '<?php echo base_url() ?>assets/admin/js/lib/uploadify-cancel.png',
+  'queueID'  : 'file-queue-private',
+  'buttonClass'  : 'button',
+  'buttonText' : "Upload Files",
+  'multi'   : true,
+  'auto'   : true,
+  'fileTypeExts' : '*.jpg; *.png; *.gif; *.PNG; *.JPG; *.GIF; *.pdf; *.docx; *.xlsx; *.pptx;',
+  'fileTypeDesc' : 'Image Files',
+  'method'  : 'post',
+  'fileObjName' : 'userfile',
+  'queueSizeLimit': 40,
+  'simUploadLimit': 2,
+  'sizeLimit'  : 10240000,
+      /*'onUploadSuccess' : function(file, data, response) {
+        alert('The file ' + file.name + ' was successfully uploaded with a response of ' + response + ':' + data);
+   },
+    'onUploadComplete' : function(file) {
+        alert('The file ' + file.name + ' finished processing.');
+   },*/
+    'onQueueFull': function(event, queueSizeLimit) {
+        alert("Please don't put anymore files in me! You can upload " + queueSizeLimit + " files at once");
+        return false;
+    }
+    });
+    
+ $('#upload_btn_public').uploadify({
+  'debug'   : false,
+  'swf'   : '<?php echo base_url() ?>assets/admin/js/lib/uploadify.swf',
+  'uploader'  : '<?php echo base_url('admin/jobs_XHR/uploadpublicFiles')?>',
+  'cancelImage' : '<?php echo base_url() ?>assets/admin/js/lib/uploadify-cancel.png',
+  'queueID'  : 'file-queue-public',
+  'buttonClass'  : 'button',
+  'buttonText' : "Upload Files",
+  'multi'   : true,
+  'auto'   : true,
+   'fileTypeExts' : '*.jpg; *.png; *.gif; *.PNG; *.JPG; *.GIF; *.pdf; *.docx; *.xlsx; *.pptx;',
+  'fileTypeDesc' : 'Image Files',
+  'method'  : 'post',
+  'fileObjName' : 'userfile',
+  'queueSizeLimit': 40,
+  'simUploadLimit': 2,
+  'sizeLimit'  : 10240000,
+      /*'onUploadSuccess' : function(file, data, response) {
+        alert('The file ' + file.name + ' was successfully uploaded with a response of ' + response + ':' + data);
+   },
+    'onUploadComplete' : function(file) {
+        alert('The file ' + file.name + ' finished processing.');
+   },*/
+    'onQueueFull': function(event, queueSizeLimit) {
+        alert("Please don't put anymore files in me! You can upload " + queueSizeLimit + " files at once");
+        return false;
+    }
+    });
+    
 });
 
 </script>

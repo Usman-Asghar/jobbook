@@ -2,7 +2,6 @@
 defined('BASEPATH') OR exit('No direct script access allowed');
 
 class Jobs_XHR extends CI_Controller {
-
 	/**
 	 *  
 	 *  Licensed by techvando
@@ -13,21 +12,18 @@ class Jobs_XHR extends CI_Controller {
 	 */
 	 
 	function __construct()
-    {
-        parent::__construct();
+        {
+            parent::__construct();
 		// Ajax Request Confirmation because this controller is only ajax requests handler
-		if(!$this->input->is_ajax_request()){
-			show_404();
-			exit;
-		}
-		
+                $this->load->helper(array('url', 'form'));
+                $fileNames = array();
 		if(!$this->session->userdata('admin_logged_in')){
 			redirect('admin-login');
 			exit();
 		}
 
 		$this->load->model('admin','Admin_Model');
-    }
+        }
 	
 	public function add_new(){
 		$response = array('success'=>false,'message'=>'');
@@ -47,7 +43,7 @@ class Jobs_XHR extends CI_Controller {
 					$response['message'] = $errors;
 				}else{
 
-					$added=$this->Common_Model->add(TBL_JOBS,
+					$added=$this->Common_Model->add_job(TBL_JOBS,
 						array(
 							  'grade_id'=> $this->security->xss_clean($this->input->post('grade_id')),
 							  'job_title'=> $this->security->xss_clean($this->input->post('job_title')),
@@ -58,11 +54,49 @@ class Jobs_XHR extends CI_Controller {
 							  'admin_id' => $this->session->userdata('admin_id')
 							)
 						);
-					if($added){
-						$response['message'] = 'Record Added Successfully';
-						$response['success'] = true;
+                                        if($this->session->userdata('privateFiles'))
+                                        {
+                                            for($count=0;$count < sizeof($this->session->userdata('privateFiles'));$count++)
+                                            {
+                                                $file_name = $this->session->userdata('privateFiles')[$count];
+                                                $file_name = explode(".",$file_name);
+                                                $this->Common_Model->add_job(TBL_JOBS_FILES,
+                                                    array(
+                                                              'job_id'=> $added,
+                                                              'file_address'=> $this->session->userdata('privateFiles')[$count],
+                                                              'file_name'=> $file_name[0],
+                                                              'is_public'=> 0,
+                                                            )
+                                                    );
+                                            }
+                                        }
+                                        
+                                        if($this->session->userdata('publicFiles'))
+                                        {
+                                            for($count=0;$count < sizeof($this->session->userdata('publicFiles'));$count++)
+                                            {
+                                                $file_name = $this->session->userdata('publicFiles')[$count];
+                                                $file_name = explode(".",$file_name);
+                                                $this->Common_Model->add_job(TBL_JOBS_FILES,
+                                                    array(
+                                                              'job_id'=> $added,
+                                                              'file_address'=> $this->session->userdata('publicFiles')[$count],
+                                                              'file_name'=> $file_name[0],
+                                                              'is_public'=> 1,
+                                                            )
+                                                    );
+                                            }
+                                        }
+                                        
+					if(!$added)
+                                        {
+                                            $response['message'] = 'Failed to add the record !';
 					}
-					else $response['message'] = 'Failed to add the record !';
+                                        else 
+                                        {
+                                            $response['message'] = 'Record Added Successfully';
+                                            $response['success'] = true;
+                                        }
 				}
 			}
 		}
@@ -118,11 +152,19 @@ class Jobs_XHR extends CI_Controller {
 	
 	public function remove(){
 		$response = array('success'=>false,'message'=>'');
-		if ( $this->Common_Model->delete_with_conditions(TBL_JOBS, array('job_id' => $this->input->post('record_id') ) ) ){
-			$response['success'] = true;
-			$response['message'] = 'Record deleted successfully!';
-		}else{
-			$response['message'] = 'Unable to delete the record!';
+		if ( $this->Common_Model->delete_with_conditions(TBL_JOBS, array('job_id' => $this->input->post('record_id') ) ) )
+                {
+                    $data['all_files'] = $this->Common_Model->get_all_rows(TBL_JOBS_FILES, array('job_id' => $this->input->post('record_id')) );
+                    foreach($data['all_files'] as $file):
+                        unlink("./uploads/".$file->file_address);
+                    endforeach;
+                    $this->Common_Model->delete_with_conditions(TBL_JOBS_FILES, array('job_id' => $this->input->post('record_id')) );
+                    $response['success'] = true;
+                    $response['message'] = 'Record deleted successfully!';
+		}
+                else
+                {
+                    $response['message'] = 'Unable to delete the record!';
 		}
 		echo json_encode($response);
 	}
@@ -197,4 +239,48 @@ class Jobs_XHR extends CI_Controller {
 		}else
 			return true;
 	}
+        
+        public function uploadprivateFiles()
+	{
+            
+            $config['upload_path'] = "./uploads";
+            $config['allowed_types'] = '*';
+            $config['max_size'] = 0;
+            $this->load->library('upload', $config);
+
+            if (!$this->upload->do_upload("userfile"))
+            {
+                    $response = $this->upload->display_errors();
+            }
+            else
+            {
+                    $response = $this->upload->data();
+                    $fileNamesBefore = $this->session->userdata('privateFiles');
+                    array_push($fileNamesBefore, $response['client_name']);
+                    $this->session->set_userdata('privateFiles', $fileNamesBefore);
+            }
+            $this->output->set_content_type('application/json')->set_output(json_encode($response));
+	}
+        public function uploadpublicFiles()
+	{
+            
+            $config['upload_path'] = "./uploads";
+            $config['allowed_types'] = '*';
+            $config['max_size'] = 0;
+            $this->load->library('upload', $config);
+
+            if (!$this->upload->do_upload("userfile"))
+            {
+                    $response = $this->upload->display_errors();
+            }
+            else
+            {
+                    $response = $this->upload->data();
+                    $fileNamesBefore = $this->session->userdata('publicFiles');
+                    array_push($fileNamesBefore, $response['client_name']);
+                    $this->session->set_userdata('publicFiles', $fileNamesBefore);
+            }
+            $this->output->set_content_type('application/json')->set_output(json_encode($response));
+	}
+        
 } // Class ends 

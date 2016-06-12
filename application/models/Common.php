@@ -103,5 +103,16 @@ class Common extends CI_Model {
 	public function last_insert_id(){
 		return $this->db->insert_id();
 	}
+        
+        public function add_job($table,$data){ //Insert data in given table
+		if($this->db->insert($table,$data)) 
+                {
+                    return $this->db->insert_id();
+                }
+		else 
+                {
+                    return false;
+                }
+	}
 	
 }// end of model

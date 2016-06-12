@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: May 17, 2016 at 10:51 PM
+-- Generation Time: Jun 12, 2016 at 03:51 PM
 -- Server version: 5.6.21
 -- PHP Version: 5.6.3
 
@@ -19,6 +19,21 @@ SET time_zone = "+00:00";
 --
 -- Database: `jobsbook`
 --
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `chat`
+--
+
+CREATE TABLE IF NOT EXISTS `chat` (
+`id` int(10) unsigned NOT NULL,
+  `from` varchar(255) NOT NULL DEFAULT '',
+  `to` varchar(255) NOT NULL DEFAULT '',
+  `message` text NOT NULL,
+  `sent` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `recd` int(10) unsigned NOT NULL DEFAULT '0'
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
@@ -77,23 +92,24 @@ CREATE TABLE IF NOT EXISTS `yh_jobs` (
   `start_date` date NOT NULL,
   `deadline_date` date NOT NULL,
   `date_entered` date NOT NULL,
-  `assigned_to` int(11) DEFAULT NULL,
+  `assigned_to` tinyint(1) NOT NULL DEFAULT '0',
   `job_status` enum('0','1') NOT NULL DEFAULT '1',
   `admin_id` int(11) NOT NULL
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `yh_jobs_files`
+--
+
+CREATE TABLE IF NOT EXISTS `yh_jobs_files` (
+`id` int(11) NOT NULL,
+  `job_id` int(11) NOT NULL,
+  `file_address` varchar(500) NOT NULL,
+  `file_name` varchar(500) NOT NULL,
+  `is_public` tinyint(1) NOT NULL DEFAULT '0'
 ) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=latin1;
-
---
--- Dumping data for table `yh_jobs`
---
-
-INSERT INTO `yh_jobs` (`job_id`, `grade_id`, `job_title`, `job_desc`, `start_date`, `deadline_date`, `date_entered`, `assigned_to`, `job_status`, `admin_id`) VALUES
-(1, 3, 'Web 2', 'web development 2', '2016-04-01', '0000-00-00', '2016-04-23', 1, '1', 1),
-(2, 4, 'Web2', 'asjlajs;l;lasd;lkl;asd', '2016-04-03', '2016-04-08', '2016-04-23', 1, '1', 1),
-(3, 2, 'New Added', 'sabjkhdnsk.na..dsma', '2016-04-21', '2016-04-30', '2016-04-25', 1, '1', 1),
-(4, 3, 'adsasdasdsadsadsa', 'sdsadsadsadsadsadsa', '2016-04-01', '2016-04-30', '2016-04-27', 1, '1', 1),
-(5, 4, 'Job 4 title', 'job 4 Description', '2016-04-30', '2016-05-07', '2016-04-27', 2, '1', 1),
-(6, 3, 'Job6', 'Job6 Description', '2016-05-21', '2016-05-31', '2016-04-28', 2, '1', 1),
-(8, 2, 'New job', 'new job', '2016-05-09', '2016-05-21', '2016-05-09', NULL, '1', 1);
 
 -- --------------------------------------------------------
 
@@ -103,10 +119,13 @@ INSERT INTO `yh_jobs` (`job_id`, `grade_id`, `job_title`, `job_desc`, `start_dat
 
 CREATE TABLE IF NOT EXISTS `yh_users` (
 `user_id` int(11) NOT NULL,
+  `grade_id` int(11) NOT NULL DEFAULT '0',
   `fname` varchar(30) NOT NULL,
   `lname` varchar(30) NOT NULL,
   `email` varchar(70) NOT NULL,
   `password` varchar(100) NOT NULL,
+  `avatar` varchar(255) NOT NULL,
+  `online` enum('1','0') NOT NULL DEFAULT '1',
   `profile_status` enum('0','1') NOT NULL,
   `admin_id` int(11) NOT NULL
 ) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
@@ -115,13 +134,44 @@ CREATE TABLE IF NOT EXISTS `yh_users` (
 -- Dumping data for table `yh_users`
 --
 
-INSERT INTO `yh_users` (`user_id`, `fname`, `lname`, `email`, `password`, `profile_status`, `admin_id`) VALUES
-(1, 'Sipmle', 'User', 'user1@gmail.com', '81fb0d4fcb80cfe3bb4c86919e4173f0ca3b3361657fb48223ef10a950c9db23', '1', 1),
-(2, 'Simple', 'User', 'user2@gmail.com', '81fb0d4fcb80cfe3bb4c86919e4173f0ca3b3361657fb48223ef10a950c9db23', '1', 1);
+INSERT INTO `yh_users` (`user_id`, `grade_id`, `fname`, `lname`, `email`, `password`, `avatar`, `online`, `profile_status`, `admin_id`) VALUES
+(1, 2, 'Sipmle', 'User 1', 'user1@gmail.com', 'da9b1f3911a9fedd53b64bed88ea269a0d539b454891da5ba1bf7afbf55bcbe9', '', '1', '1', 1),
+(2, 2, 'Simple', 'User 2', 'user2@gmail.com', '81fb0d4fcb80cfe3bb4c86919e4173f0ca3b3361657fb48223ef10a950c9db23', '', '1', '1', 1);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `yh_user_to_jobs`
+--
+
+CREATE TABLE IF NOT EXISTS `yh_user_to_jobs` (
+`id` int(11) NOT NULL,
+  `user_id` int(11) NOT NULL,
+  `job_id` int(11) NOT NULL,
+  `start_date` date NOT NULL,
+  `end_date` date NOT NULL,
+  `no_of_hours` int(15) NOT NULL,
+  `approved` tinyint(1) NOT NULL DEFAULT '0',
+  `rejected` tinyint(1) NOT NULL DEFAULT '0'
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `yh_user_to_jobs`
+--
+
+INSERT INTO `yh_user_to_jobs` (`id`, `user_id`, `job_id`, `start_date`, `end_date`, `no_of_hours`, `approved`, `rejected`) VALUES
+(1, 1, 1, '2016-06-25', '2016-06-30', 60, 1, 0),
+(2, 1, 2, '2016-06-01', '2016-06-30', 56, 0, 0);
 
 --
 -- Indexes for dumped tables
 --
+
+--
+-- Indexes for table `chat`
+--
+ALTER TABLE `chat`
+ ADD PRIMARY KEY (`id`), ADD KEY `to` (`to`), ADD KEY `from` (`from`);
 
 --
 -- Indexes for table `yh_admin`
@@ -142,15 +192,32 @@ ALTER TABLE `yh_jobs`
  ADD PRIMARY KEY (`job_id`);
 
 --
+-- Indexes for table `yh_jobs_files`
+--
+ALTER TABLE `yh_jobs_files`
+ ADD PRIMARY KEY (`id`);
+
+--
 -- Indexes for table `yh_users`
 --
 ALTER TABLE `yh_users`
  ADD PRIMARY KEY (`user_id`);
 
 --
+-- Indexes for table `yh_user_to_jobs`
+--
+ALTER TABLE `yh_user_to_jobs`
+ ADD PRIMARY KEY (`id`);
+
+--
 -- AUTO_INCREMENT for dumped tables
 --
 
+--
+-- AUTO_INCREMENT for table `chat`
+--
+ALTER TABLE `chat`
+MODIFY `id` int(10) unsigned NOT NULL AUTO_INCREMENT;
 --
 -- AUTO_INCREMENT for table `yh_admin`
 --
@@ -165,12 +232,22 @@ MODIFY `grade_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=5;
 -- AUTO_INCREMENT for table `yh_jobs`
 --
 ALTER TABLE `yh_jobs`
-MODIFY `job_id` bigint(20) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=9;
+MODIFY `job_id` bigint(20) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=3;
+--
+-- AUTO_INCREMENT for table `yh_jobs_files`
+--
+ALTER TABLE `yh_jobs_files`
+MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=9;
 --
 -- AUTO_INCREMENT for table `yh_users`
 --
 ALTER TABLE `yh_users`
 MODIFY `user_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=3;
+--
+-- AUTO_INCREMENT for table `yh_user_to_jobs`
+--
+ALTER TABLE `yh_user_to_jobs`
+MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=3;
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;

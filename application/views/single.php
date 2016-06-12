@@ -1,3 +1,4 @@
+<?=link_tag('admin/plugins/bootstrap-datepicker/dist/css/bootstrap-datepicker.min.css');?>
 <div class="wrapper" id="sb-site">
     <section class="header-area-inner">
         <div class="container">
@@ -13,8 +14,6 @@
     </section>
     <section class="inner-headings">
         <div class="container text-left">
-            <div class="alert alert-success alert-dismissable" id="success_message"></div>
-            <div class="alert alert-danger alert-dismissable" id="error_message"></div>
             <div class="row clearfix">
                 <div class="profile-head-area clearfix">
                     <div class="profile-photo"><img src="<?=assets_url('user/img/Job-Description.jpg');?>" alt="">
@@ -24,8 +23,8 @@
                         <h5 class="uppercase animated" data-animation="fadeInUp" data-animation-delay="200"><i class="fi-mountains"></i> <?php echo $jobs->grade_name;?></h5>
                         <hr class="animated" data-animation="fadeInUp" data-animation-delay="300"> </div>
                 </div>
-                <?php if($jobs->assigned_to == 0): ?>
-                    <div class="profile-btns-main"> <a class="apply-btn" href="javascript:;" onclick="add_by_get_method('<?=base_url('jobs/apply_for_job');?>',<?=$jobs->job_id;?>)">Apply</a></div>
+                <?php if(!isset($jobs->approved)): ?>
+                    <div class="profile-btns-main"> <a href="#" class="apply-btn" id="job_apply_button" data-toggle="modal" data-target="#jobApplyModal" data-job_id="<?=$jobs->job_id;?>">Apply</a></div>
                 <?php endif; ?>
                 
             </div>
@@ -60,36 +59,42 @@
                 </div>
                 <div class="col-md-12 job-listing-full">
                     <div class="job-list-head clearfix animated" data-animation="fadeInUp" data-animation-delay="100">
-                        <div class="title-big">relate jobs</div>
-                    </div>
+                        <div class="title-big">Public Attachments</div>
+                    </div>                    
                     <ul class="job-listings">
+                        <?php if(!$public_attachments): ?>
+                            <li style="color:#a94442;font-size: 24px;">No Jobs Available!</li>
+                        <?php endif; ?>
+                        <?php foreach($public_attachments as $public_files): ?>
                         <li class="animated" data-animation="fadeInUp" data-animation-delay="100">
-                            <div class="title"> <span class="prof-photo"><a href="#"><img src="<?=assets_url('user/img/prof-01.jpg');?>" alt=""></a></span> <span class="designation"> <a href="#">GRAPHIC DESIGNER</a><br>5Goat Corporation </span> </div>
-                            <div class="location">California, USA</div>
-                            <div class="create">10 mins ago</div>
+                            <div class="title"> <span class="prof-photo"><a href="#"><img src="<?=assets_url('user/img/file.png');?>" alt=""></a></span> <span class="designation"><?=$public_files->file_name;?><br></span> </div>
+                            <div class="location"></div>
+                            <div class="create"></div>
+                            <div class="create"><a href="<?=base_url('jobs/download/'.$public_files->file_address.'')?>">Download</a></div>
                         </li>
-                        <li class="animated" data-animation="fadeInUp" data-animation-delay="100">
-                            <div class="title"> <span class="prof-photo"><a href="#"><img src="<?=assets_url('user/img/prof-02.jpg');?>" alt=""></a></span> <span class="designation"> <a href="#">wordpress developer</a><br>Behance </span> </div>
-                            <div class="location">New York, USA</div>
-                            <div class="create">2 days ago</div>
-                        </li>
-                        <li class="animated" data-animation="fadeInUp" data-animation-delay="100">
-                            <div class="title"> <span class="prof-photo"><a href="#"><img src="<?=assets_url('user/img/prof-03.jpg');?>" alt=""></a></span> <span class="designation"> <a href="#">web designer</a><br>Dribbble </span> </div>
-                            <div class="location">California, USA</div>
-                            <div class="create">3 days ago</div>
-                        </li>
-                        <li class="animated" data-animation="fadeInUp" data-animation-delay="100">
-                            <div class="title"> <span class="prof-photo"><a href="#"><img src="<?=assets_url('user/img/prof-04.jpg');?>" alt=""></a></span> <span class="designation"> <a href="#">MEAN developer</a><br>Themeforest </span> </div>
-                            <div class="location">New York, USA</div>
-                            <div class="create">05-02-2015</div>
-                        </li>
-                        <li class="animated" data-animation="fadeInUp" data-animation-delay="100">
-                            <div class="title"> <span class="prof-photo"><a href="#"><img src="<?=assets_url('user/img/prof-05.jpg');?>" alt=""></a></span> <span class="designation"> <a href="#">print designer</a><br>Themeforest </span> </div>
-                            <div class="location">New York, USA</div>
-                            <div class="create">05-02-2015</div>
-                        </li>
+                        <?php endforeach; ?>
                     </ul>
                 </div>
+                <?php if(isset($jobs->approved) && $jobs->approved==1): ?>
+                <div class="col-md-12 job-listing-full">
+                    <div class="job-list-head clearfix animated" data-animation="fadeInUp" data-animation-delay="100">
+                        <div class="title-big">Private Attachments</div>
+                    </div>                    
+                    <ul class="job-listings">
+                        <?php if(!$private_attachments): ?>
+                            <li style="color:#a94442;font-size: 24px;">No Jobs Available!</li>
+                        <?php endif; ?>
+                        <?php foreach($private_attachments as $private_files): ?>
+                        <li class="animated" data-animation="fadeInUp" data-animation-delay="100">
+                            <div class="title"> <span class="prof-photo"><a href="#"><img src="<?=assets_url('user/img/file.png');?>" alt=""></a></span> <span class="designation"><?=$private_files->file_name;?></span> </div>
+                            <div class="location"></div>
+                            <div class="create"></div>
+                            <div class="create"><a href="<?=base_url('jobs/download/'.$private_files->file_address.'')?>">Download</a></div>
+                        </li>
+                        <?php endforeach; ?>
+                    </ul>
+                </div>
+                <?php endif; ?>
             </div>
         </div>
     </section>
@@ -129,8 +134,53 @@ function getScripts()
 {
 ob_start();
 ?>
+<?=script_tag('admin/plugins/bootstrap-datepicker/js/bootstrap-datepicker.js');?>
 <?=script_tag('user/js/jquery.easytabs.min.js');?>
 <?=script_tag('user/js/common.js');?>
+<div class="modal fade" id="jobApplyModal" tabindex="-1" role="dialog" aria-labelledby="jobApplyModalLabel">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="exampleModalLabel">Apply for Job</h4>
+      </div>
+    <div class="alert alert-success alert-dismissable" id="success_message"></div>
+    <div class="alert alert-danger alert-dismissable" id="error_message"></div>
+    <form name="add_form" id="add_form" onsubmit="return add_item('<?=base_url('jobs/apply_for_job');?>');" >
+      <div class="modal-body">
+          <input type="hidden" class="form-control" id="jobId" name="jobId">
+          <div class="form-group">
+            <label for="start_date" class="control-label">Start Date</label>
+            <input type="text" class="form-control" id="start_date" name="start_date" required="required">
+          </div>
+          <div class="form-group">
+            <label for="end_date" class="control-label">End Date</label>
+            <input type="text" class="form-control" id="end_date" name="end_date" required="required">
+          </div>
+          <div class="form-group">
+            <label for="no_of_hours" class="control-label">No of Hous</label>
+            <input type="number" class="form-control" id="no_of_hours" name="no_of_hours" required="required">
+          </div>
+        
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        <input type="submit" name="submit" class="btn btn-primary" id="submit" value="Submit"/>
+      </div>
+    </form>
+    </div>
+  </div>
+</div>
+<script>
+$('#start_date, #end_date').datepicker();
+$('#job_apply_button').on('click', function() 
+{
+  var button = $('#job_apply_button');
+  var job_id = button.data('job_id');
+   $('#jobId').val(job_id);
+});
+
+</script>
 <?php
     $content = ob_get_contents();
     ob_end_clean();
