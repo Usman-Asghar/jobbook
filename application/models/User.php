@@ -34,11 +34,12 @@ class User extends CI_Model {
             {
                 $this->db->limit($limit, $start);
             }
-            $this->db->select('yh_grades.*,yh_jobs.*');
+            $this->db->select('yh_grades.*,yh_jobs.*,yh_user_to_jobs.approved');
             $this->db->from(TBL_JOBS);
             $this->db->join('yh_grades', 'yh_grades.grade_id = yh_jobs.grade_id','left');
-            $this->db->where($conditions);
-            $this->db->where('yh_jobs.job_id NOT IN (SELECT job_id FROM yh_user_to_jobs WHERE user_id= '.$user_id.')', NULL, FALSE);
+            $this->db->join('yh_user_to_jobs', 'yh_user_to_jobs.job_id = yh_jobs.job_id','left');
+			$this->db->where($conditions);
+            
             if($job_id != 0)
             {
                 $this->db->where(array('yh_jobs.job_id'=>$job_id));
@@ -46,8 +47,18 @@ class User extends CI_Model {
             }
             else
             {
+				
+		$this->db->where('yh_jobs.job_id NOT IN (SELECT job_id FROM yh_user_to_jobs WHERE user_id= '.$user_id.')', NULL, FALSE);
                 return  $this->db->get()->result();
             }   
+	}
+	
+	public function already_applied($conditions){
+		$this->db->select('*');
+                 $this->db->from(TBL_USERS_TO_JOBS);
+		$this->db->where($conditions);
+		$rows = $this->db->count_all_results();
+		return $rows ? true : false;
 	}
         public function get_user_jobs_after_applied($conditions,$job_id,$user_id,$limit=0, $start=0){
             if($job_id == 0)

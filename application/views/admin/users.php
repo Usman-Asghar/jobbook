@@ -178,11 +178,7 @@
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            <?php if(!$users): ?>
-                                                <tr class="alert alert-warning text-center">
-                                                    <td colspan="10"><em>No User found in the system.</em></td>
-                                                </tr>
-                                            <?php endif; $count=1; ?>
+                                            <?php $count=1; ?>
 
                                             <?php foreach($users as $user): ?>
                                             <tr>

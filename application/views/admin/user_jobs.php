@@ -48,11 +48,7 @@
 										</tr>
 									</thead>
 									<tbody>
-										<?php if(!$jobs): ?>
-											<tr class="alert alert-warning text-center">
-												<td colspan="10"><em>No job found in the system.</em></td>
-											</tr>
-										<?php endif; $count=1;?>
+										<?php $count=1; ?>
 
 										<?php foreach($jobs as $job): ?>
 										<tr>

@@ -23,22 +23,32 @@
                         <h5 class="uppercase animated" data-animation="fadeInUp" data-animation-delay="200"><i class="fi-mountains"></i> <?php echo $jobs->grade_name;?></h5>
                         <hr class="animated" data-animation="fadeInUp" data-animation-delay="300"> </div>
                 </div>
-                <?php if(!isset($jobs->approved)): ?>
+                <?php if(!$already_applied): ?>
                     <div class="profile-btns-main"> <a href="#" class="apply-btn" id="job_apply_button" data-toggle="modal" data-target="#jobApplyModal" data-job_id="<?=$jobs->job_id;?>">Apply</a></div>
                 <?php endif; ?>
                 
             </div>
         </div>
     </section>
+	
     <section class="inner-full-cont">
         <div class="container">
             <div class="row clearfix">
                 <div class="col-md-12 full-width-area">
+					
                     <div id="tab-container" class="tab-container animated" data-animation="fadeInUp" data-animation-delay="100">
+					<?php if($already_applied): ?>
+                                <?php if($jobs->approved==1): ?>
+									<div class="alert alert-success">You are hired for this job</div>
+                                <?php else: ?>
+									<div class="alert alert-warning">You have already applied to this job</div>
+								<?php endif; ?>
+					<?php endif; ?>
                         <div class="panel-container">
                             <div class="tab-cont">
                                 <ul class="info-list clearfix">
-                                    <li>
+                                    
+									<li>
                                         <label><i class="fi-calendar"></i> Posted on</label> <span><?=date('M-d-Y', strtotime(str_replace('-','/', $jobs->date_entered)));?></span>
                                     </li>
                                     <li>
@@ -75,7 +85,7 @@
                         <?php endforeach; ?>
                     </ul>
                 </div>
-                <?php if(isset($jobs->approved) && $jobs->approved==1): ?>
+                <?php if($already_applied && $jobs->approved==1): ?>
                 <div class="col-md-12 job-listing-full">
                     <div class="job-list-head clearfix animated" data-animation="fadeInUp" data-animation-delay="100">
                         <div class="title-big">Private Attachments</div>

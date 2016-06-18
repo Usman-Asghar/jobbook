@@ -67,7 +67,9 @@ class jobs extends CI_Controller {
 	{	
             $data['page_title'] = 'Single Job';
             $data['jobs'] = $this->User_Model->get_user_jobs(array('yh_jobs.grade_id' => $this->session->userdata('grade_id')),$job_id,$this->session->userdata('grade_id'));
+            $data['already_applied'] = $this->User_Model->already_applied(array('job_id'=>$job_id, 'user_id'=>$this->session->userdata('user_id')));
             $data['public_attachments'] = $this->User_Model->get_public_attachments(array('is_public' => '1','job_id'=>$job_id));
+            $data['private_attachments'] = $this->User_Model->get_public_attachments(array('is_public' => '0','job_id'=>$job_id));
             $this->load->front_template('single',$data);
 	}
         
