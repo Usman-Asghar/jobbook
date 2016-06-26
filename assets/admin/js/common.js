@@ -43,17 +43,12 @@ function notify_n_hide(id, msg, path){
 }
 
 
-function close_n_refresh(id,ref){
-	
-	//$("#"+ref).fadeOut(2000);
+function close_n_refresh(id,ref)
+{
 	$("#"+ref).css('opacity','0.3');
 	setTimeout(function(){
-		$('#'+id).hide("slow");
-	},1000);
-	$('#'+ref).load(location.href + " #"+ref, null,function(){
-		//$("#"+ref).fadeIn('fast');
-		$("#"+ref).css('opacity','1');
-	});
+		window.location.reload();
+	},2000);
 }
 
 function add_request(){
@@ -68,6 +63,7 @@ function close_it(id){
 }
 
 function add_item(URL){
+       $('#submit').attr('disabled','disabled');
 	$.ajax({
 		type: "POST",
 		async: false,
@@ -80,6 +76,7 @@ function add_item(URL){
 				close_n_refresh('add_form_holder','content');
 			}else
 				notify_n_hide('error_message',response.message);
+                                $('#submit').removeAttr('disabled','disabled');
 		},
 		error : function(response){alert(response.responseText)}
 	});

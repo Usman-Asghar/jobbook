@@ -221,7 +221,7 @@ function chatHeartbeat(){
 	}
 	
 	jQuery.ajax({
-	  url: "http://localhost/jobsbook/application/views/chat/chat.php?action=chatheartbeat",
+	  url: "http://localhost/jobbook/application/views/chat/chat.php?action=chatheartbeat",
 	  cache: false,
 	  dataType: "json",
 	  success: function(data) {
@@ -282,7 +282,7 @@ function closeChatBox(chatboxtitle) {
 	jQuery('#chatbox_'+chatboxtitle).css('display','none');
 	restructureChatBoxes();
 
-	jQuery.post("http://localhost/jobsbook/application/views/chat/chat.php?action=closechat", { chatbox: chatboxtitle} , function(data){	
+	jQuery.post("http://localhost/jobbook/application/views/chat/chat.php?action=closechat", { chatbox: chatboxtitle} , function(data){	
 	});
 
 }
@@ -349,7 +349,7 @@ function checkChatBoxInputKey(event,chatboxtextarea,chatboxtitle) {
 		jQuery(chatboxtextarea).focus();
 		jQuery(chatboxtextarea).css('height','44px');
 		if (message != '') {
-			jQuery.post("http://localhost/jobsbook/application/views/chat/chat.php?action=sendchat", {to: chatboxtitle, message: message} , function(data){
+			jQuery.post("http://localhost/jobbook/application/views/chat/chat.php?action=sendchat", {to: chatboxtitle, message: message} , function(data){
 				message = message.replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/\"/g,"&quot;");
 				jQuery("#chatbox_"+chatboxtitle+" .chatboxcontent").append('<div class="chatboxmessage"><span class="chatboxmessagefrom">'+username+':&nbsp;&nbsp;</span><span class="chatboxmessagecontent">'+message+'</span></div>');
 				jQuery("#chatbox_"+chatboxtitle+" .chatboxcontent").scrollTop(jQuery("#chatbox_"+chatboxtitle+" .chatboxcontent")[0].scrollHeight);
@@ -384,7 +384,7 @@ function checkChatBoxInputKey(event,chatboxtextarea,chatboxtitle) {
 
 function startChatSession(){  
 	jQuery.ajax({
-	  url: "http://localhost/jobsbook/application/views/chat/chat.php?action=startchatsession",
+	  url: "http://localhost/jobbook/application/views/chat/chat.php?action=startchatsession",
 	  cache: false,
 	  dataType: "json",
 	  success: function(data) {

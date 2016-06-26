@@ -39,7 +39,7 @@
 												<div class="form-group">
 													<label for="job_grade">Job Grade</label>
 													<select class="form-control" name="grade_id" id="grade_id">
-														<option value="0"> - Select - </option>
+														<option value=""> - Select - </option>
 														<?php foreach($grades as $g): ?>
 															<option value="<?=$g->grade_id?>" >
 																<?=$g->grade_name?>
