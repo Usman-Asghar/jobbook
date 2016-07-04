@@ -24,8 +24,17 @@ class User_Jobs extends CI_Controller {
 	 
 	public function index()
 	{
+            //,'yh_jobs.assigned_to' => '0'
+            $new_data = array(
+                    'viewed'=> '1'
+            );
+
+            $updated=$this->Common_Model->update(TBL_USERS_TO_JOBS,
+                    $new_data,
+                    array()
+            );
             $data['page_title'] = 'User Jobs';
-            $data['jobs'] = $this->Admin_Model->get_user_jobs( array('yh_jobs.job_status' => '1','yh_jobs.assigned_to' => '0', 'yh_jobs.admin_id'=>$this->session->userdata('admin_id')) );
+            $data['jobs'] = $this->Admin_Model->get_user_jobs( array('yh_jobs.job_status' => '1', 'yh_jobs.admin_id'=>$this->session->userdata('admin_id')) );
             $data['grades'] = $this->Admin_Model->get_all_grades(array('grade_status' => '1'));
             $data['status'] = 6;
             $this->load->admin_template('user_jobs',$data);
@@ -65,7 +74,8 @@ class User_Jobs extends CI_Controller {
         {
             $response = array('success'=>false,'message'=>'');
             $new_data = array(
-                    'rejected'=> '1'
+                    'rejected'=> '1',
+                    'rejection_reason'=> $this->input->post('rejection_reason')
             );
 
             $updated=$this->Common_Model->update(TBL_USERS_TO_JOBS,
@@ -81,5 +91,15 @@ class User_Jobs extends CI_Controller {
             
             echo json_encode($response);
             
+        }
+        public function getUserAppliedCount()
+        {
+            $count = $this->Common_Model->count_rows(TBL_USERS_TO_JOBS, array('viewed' => '0' ) );
+
+            $response['data'] = array();
+            $response['data']['jobs_applied_count'] = $count;
+            $response['success'] = true;
+            
+            echo json_encode($response);
         }
 }

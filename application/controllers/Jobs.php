@@ -29,7 +29,7 @@ class jobs extends CI_Controller {
                 
 		$data['page_title'] = 'Jobs Dashboard'; 
                 $config['base_url'] = base_url().'/jobs/index/page';
-                $config['total_rows'] = $this->User_Model->get_user_jobs_count(array('yh_jobs.assigned_to' => '0','yh_jobs.grade_id' => $this->session->userdata('grade_id')),0,$this->session->userdata('user_id'));
+                $config['total_rows'] = $this->User_Model->get_user_jobs_count(array('yh_jobs.assigned_to' => '0'),0,$this->session->userdata('user_id'));
                 $config['per_page'] = 5;
                 
                 $config['num_tag_open'] = '<li>';
@@ -38,7 +38,7 @@ class jobs extends CI_Controller {
                 $config['cur_tag_close'] = '<li>';
                 $this->pagination->initialize($config);
                 $page = ($this->uri->segment(4)) ? $this->uri->segment(4) : 0;
-                $data['jobs'] = $this->User_Model->get_user_jobs(array('yh_jobs.assigned_to' => '0','yh_jobs.grade_id' => $this->session->userdata('grade_id')),0,$this->session->userdata('user_id'),$config["per_page"], $page);
+                $data['jobs'] = $this->User_Model->get_user_jobs(array('yh_jobs.assigned_to' => '0'),0,$this->session->userdata('user_id'),$config["per_page"], $page);
                 $data['pagination'] = $this->pagination->create_links();
                 $data['status'] = 4;
                 $this->load->front_template('jobs',$data);
@@ -66,7 +66,7 @@ class jobs extends CI_Controller {
         public function job_apply($job_id)
 	{	
             $data['page_title'] = 'Single Job';
-            $data['jobs'] = $this->User_Model->get_user_jobs(array('yh_jobs.grade_id' => $this->session->userdata('grade_id')),$job_id,$this->session->userdata('grade_id'));
+            $data['jobs'] = $this->User_Model->get_single_job($job_id);
             $data['already_applied'] = $this->User_Model->already_applied(array('job_id'=>$job_id, 'user_id'=>$this->session->userdata('user_id')));
             $data['public_attachments'] = $this->User_Model->get_public_attachments(array('is_public' => '1','job_id'=>$job_id));
             $data['private_attachments'] = $this->User_Model->get_public_attachments(array('is_public' => '0','job_id'=>$job_id));
@@ -84,7 +84,7 @@ class jobs extends CI_Controller {
         public function job_applied_detail($job_id)
 	{	
             $data['page_title'] = 'Single Job';
-            $data['jobs'] = $this->User_Model->get_user_jobs_after_applied(array('yh_user_to_jobs.user_id'=>$this->session->userdata('user_id'),'yh_jobs.grade_id' => $this->session->userdata('grade_id')),$job_id,$this->session->userdata('grade_id'));
+            $data['jobs'] = $this->User_Model->get_user_jobs_after_applied(array('yh_user_to_jobs.user_id'=>$this->session->userdata('user_id'),'yh_jobs.grade_id' => $this->session->userdata('grade_id')),$job_id,$this->session->userdata('user_id'));
             $data['public_attachments'] = $this->User_Model->get_public_attachments(array('is_public' => '1','job_id'=>$job_id));
             $data['private_attachments'] = $this->User_Model->get_public_attachments(array('is_public' => '0','job_id'=>$job_id));
             $this->load->front_template('single',$data);

@@ -53,7 +53,7 @@
                                 <div class="title"> <span class="prof-photo"><a href="single.html"><img src="<?=assets_url('user/img/job.png');?>" alt=""></a></span> <span class="designation"> <a href="single.html"><?=$job->job_title?></a><br><?=$job->grade_name?></span> </div>
                                 <div class="location"><?=date('M-d-Y', strtotime(str_replace('-','/', $job->date_entered)));?></div>
                                 <div class="create"><?=date('M-d-Y', strtotime(str_replace('-','/', $job->deadline_date)));?></div>
-                                <div class="actions"><a class="btn btn-primary pull-left" href="<?=base_url('jobs/job_apply/'.$job->job_id.'')?>">Job Details</a>&nbsp;&nbsp;<a class="btn btn-success" id="job_apply_button" data-toggle="modal" data-target="#jobApplyModal" data-job_id="<?=$job->job_id;?>">Apply</a></div>
+                                <div class="actions"><a class="btn btn-primary pull-left" href="<?=base_url('jobs/job_apply/'.$job->job_id.'')?>">Job Details</a>&nbsp;&nbsp;<a class="btn btn-success" id="job_apply_button" data-toggle="modal" data-target="#jobApplyModal" onClick="setValue(<?=$job->job_id;?>);">Apply</a></div>
                             </li>
                         </ul>
                     <?php endforeach; ?>
@@ -141,13 +141,15 @@ function getScripts()
   </div>
 </div>
 <script>
-$('#start_date, #end_date').datepicker();
-$('#job_apply_button').on('click', function() 
+$(document).ready(function() 
 {
-  var button = $('#job_apply_button');
-  var job_id = button.data('job_id');
-   $('#jobId').val(job_id);
+    $('#start_date, #end_date').datepicker();
 });
+
+function setValue(jobId)
+{
+    document.getElementById('jobId').value = jobId;
+}
 
 </script>
 <?php

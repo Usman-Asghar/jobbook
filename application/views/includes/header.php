@@ -33,10 +33,10 @@
             <ul>
                 <li><a href="<?=  base_url('main')?>" <?php if(isset($status)){if($status==1){echo "class='active'";}} ?>>HOME</a>
                 </li>
-                <li><a href="<?=  base_url('main/about')?>" <?php if(isset($status)){if($status==2){echo "class='active'";}} ?>>ABOUT</a>
+                <!--<li><a href="<?=  base_url('main/about')?>" <?php if(isset($status)){if($status==2){echo "class='active'";}} ?>>ABOUT</a>
                 </li>
                 <li><a href="<?=  base_url('main/contact')?>" <?php if(isset($status)){if($status==3){echo "class='active'";}} ?>>Contact</a>
-                </li>
+                </li>-->
                 <?php
                 if($this->session->userdata('user_logged_in'))
                 {

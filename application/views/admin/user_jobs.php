@@ -44,7 +44,7 @@
                                                                                     <th>Start Date</th>
                                                                                     <th>End Date</th>
                                                                                     <th>Hours</th>
-                                                                                    <th>Actions</th>
+                                                                                    <th width="120px">Actions</th>
 										</tr>
 									</thead>
 									<tbody>
@@ -61,14 +61,29 @@
 											<td><?=date('M-d-Y', strtotime(str_replace('-','/', $job->end_date)));?></td>
                                                                                         <td><?=$job->no_of_hours?></td>
 											<td>
-												<div class="btn-group-sm">
+                                                                                            <?php
+                                                                                            if($job->approved == 1)
+                                                                                            {
+                                                                                                echo '<span style="color:#33b86c;">Approved</span>';
+                                                                                            }
+                                                                                            else if($job->rejected == 1)
+                                                                                            {
+                                                                                                echo '<span style="color:#ef5350;">Rejected</span>';
+                                                                                            }
+                                                                                            else
+                                                                                            {
+                                                                                            ?>
+                                                                                            <div class="btn-group-sm">
 												<a href="javascript:;" onclick="changeStatus('<?=base_url('admin/user_jobs/approve_user_job');?>',<?=$job->job_id;?>,<?=$job->user_id;?>)" class="btn btn-success waves-effect waves-light tooltips" data-placement="top" data-toggle="tooltip" data-original-title="Approve">
                                                                                                     Approve
 												</a>
-                                                                                                <a href="javascript:;" onclick="changeStatus('<?=base_url('admin/user_jobs/reject_user_job');?>',<?=$job->job_id;?>,<?=$job->user_id;?>)" class="btn btn-danger waves-effect waves-light tooltips" data-placement="top" data-toggle="tooltip" data-original-title="Reject">
+                                                                                                <a href="javascript:;" onClick="setValue(<?=$job->job_id;?>,<?=$job->user_id;?>)" data-toggle="modal" data-target="#custom-width-modal" class="btn btn-danger waves-effect waves-light tooltips" data-placement="top" data-toggle="tooltip" data-original-title="Reject">
                                                                                                     Reject
 												</a>
-											</div>
+                                                                                            </div>
+                                                                                            <?php
+                                                                                            }
+                                                                                            ?>
 											</td>
 										</tr>
 										<?php $count++; endforeach; ?>
@@ -84,6 +99,37 @@
 		</div>
 	</div>
 </div>
+<div id="custom-width-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="custom-width-modalLabel" aria-hidden="true" style="display: none">
+    <div class="modal-dialog" style="width:55%">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                <h4 class="modal-title" id="custom-width-modalLabel">Reject Application</h4>
+            </div>
+            <form name="add_form" id="add_form" onsubmit="return add_item('<?=base_url('admin/user_jobs/reject_user_job');?>');" >
+            <input type="hidden" name="job_id" id="job_id" />
+            <input type="hidden" name="user_id" id="user_id" />
+            <div class="alert alert-success alert-dismissable" id="success_message"></div>
+            <div class="alert alert-danger alert-dismissable" id="error_message"></div>
+            
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-sm-12">
+                        <div class="form-group">
+                            <label for="deadline_date">Rejection Reason</label>
+                            <input type="text" autofocus class="form-control" placeholder="Rejection Reason" name="rejection_reason" id="rejection_reason" />
+                        </div>
+                    </div>
+                </div>
+             </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default waves-effect" data-dismiss="modal">Close</button>
+                <button type="submit" id="submit" class="btn btn-primary waves-effect waves-light">Save changes</button>
+            </div>
+            </form>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
 <?php
 function getScripts()
 {
@@ -119,7 +165,11 @@ $(document).ready(function() {
         }
     });
 });
-
+function setValue(jobId,userId)
+{
+    document.getElementById('job_id').value = jobId;
+    document.getElementById('user_id').value = userId;
+}
 </script>
 <?php
     $content = ob_get_contents();

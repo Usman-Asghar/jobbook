@@ -151,6 +151,7 @@ function delete_item(id,URL){
 
 /* Upload custom funcs */
 $(document).ready(function(){
+        getJobsAppliedCount();
 	$(".uploadTrigger").click(function(){
 	   $( $(this).data('trigger') ).trigger('click');	   
 	});
@@ -164,3 +165,24 @@ $(document).ready(function(){
 		$(this).parent('.attachment-details').html('');
 	});
 });
+
+setInterval(function(){ getJobsAppliedCount(); }, 10000);
+
+function getJobsAppliedCount()
+{
+    $.ajax({
+        url : global.base_url+'admin/user_jobs/getUserAppliedCount',
+        type: "POST",
+        async: true,
+        success: function(response){
+                response = JSON.parse(response);
+                if(response.success)
+                {
+                    $('.jobs_count').html(response.data.jobs_applied_count);
+                }else
+                        console.log('Some error Occured');
+            },
+            error: function(response){alert(response.responseText)}
+    });	
+    return false;
+}

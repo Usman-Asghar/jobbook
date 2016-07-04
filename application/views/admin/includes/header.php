@@ -69,29 +69,29 @@
                             </form>
 
                             <ul class="nav navbar-nav navbar-right pull-right">
-                                <!-- 
+                                
                                 <li class="dropdown hidden-xs">
                                     <a href="#" data-target="#" class="dropdown-toggle waves-effect" data-toggle="dropdown" aria-expanded="true">
-                                        <i class="md md-notifications"></i> <span class="badge badge-xs badge-danger">3</span>
+                                        <i class="md md-notifications"></i> <span class="badge badge-xs badge-danger jobs_count">0</span>
                                     </a>
                                     <ul class="dropdown-menu dropdown-menu-lg">
-                                        <li class="text-center notifi-title">Notification</li>
+                                        <li class="text-center notifi-title">Notifications</li>
                                         <li class="list-group">
-                                           <!-- list item--><!--
-                                           <a href="javascript:void(0);" class="list-group-item">
+                                           <!-- list item-->
+                                           <a  href="<?=base_url('admin/user_jobs')?>" class="list-group-item">
                                               <div class="media">
                                                  <div class="pull-left">
-                                                    <em class="fa fa-user-plus fa-2x text-info"></em>
+                                                    <em class="fa md md-work text-info"></em>
                                                  </div>
                                                  <div class="media-body clearfix">
-                                                    <div class="media-heading">New user registered</div>
+                                                    <div class="media-heading">Jobs Applied</div>
                                                     <p class="m-0">
-                                                       <small>You have 10 unread messages</small>
+                                                        <small>You have <span class="jobs_count">0</span> jobs applied</small>
                                                     </p>
                                                  </div>
                                               </div>
                                            </a>
-                                           <!-- list item--><!--
+                                           <!-- list item
                                             <a href="javascript:void(0);" class="list-group-item">
                                               <div class="media">
                                                  <div class="pull-left">
@@ -104,8 +104,8 @@
                                                     </p>
                                                  </div>
                                               </div>
-                                            </a>
-                                            <!-- list item--><!--
+                                            </a>-->
+                                            <!-- list item
                                             <a href="javascript:void(0);" class="list-group-item">
                                               <div class="media">
                                                  <div class="pull-left">
@@ -119,21 +119,21 @@
                                                     </p>
                                                  </div>
                                               </div>
-                                            </a>
-                                           <!-- last list item --><!--
-                                            <a href="javascript:void(0);" class="list-group-item">
+                                            </a>-->
+                                           <!-- last list item -->
+                                            <!--<a href="javascript:void(0);" class="list-group-item">
                                               <small>See all notifications</small>
-                                            </a>
+                                            </a>-->
                                         </li>
                                     </ul>
                                 </li>
-                                <-->
+                                
                                 <li class="hidden-xs">
                                     <a href="#" id="btn-fullscreen" class="waves-effect"><i class="md md-crop-free"></i></a>
                                 </li>
-                                <li class="hidden-xs">
+                                <!--<li class="hidden-xs">
                                     <a href="#" class="right-bar-toggle waves-effect"><i class="md md-chat"></i></a>
-                                </li>
+                                </li>-->
                                 <li class="dropdown">
                                     <a href="" class="dropdown-toggle profile" data-toggle="dropdown" aria-expanded="true"><img src="<?=assets_url('admin/images/users/avatar-1.png');?>" alt="user-img" class="img-circle"> </a>
                                     <ul class="dropdown-menu">
