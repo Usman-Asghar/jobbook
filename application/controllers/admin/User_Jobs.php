@@ -20,6 +20,7 @@ class User_Jobs extends CI_Controller {
                 exit();
         }
         $this->load->model('admin','Admin_Model');
+        $this->load->library('email_handler');
     }
 	 
 	public function index()
@@ -44,30 +45,47 @@ class User_Jobs extends CI_Controller {
         {
             $response = array('success'=>false,'message'=>'');
             $new_data1 = array(
-                    'assigned_to'=> '1'
+                'assigned_to'=> '1'
             );
 
             $updated1=$this->Common_Model->update(TBL_JOBS,
-                    $new_data1,
-                    array( 'job_id' => (int) $this->input->post('job_id'))
+                $new_data1,
+                array( 'job_id' => (int) $this->input->post('job_id'))
             );
             $new_data = array(
-                    'approved'=> '1'
+                'approved'=> '1'
             );
 
             $updated=$this->Common_Model->update(TBL_USERS_TO_JOBS,
-                    $new_data,
-                    array( 'user_id' => (int) $this->input->post('user_id'),'job_id' => (int) $this->input->post('job_id') )
+                $new_data,
+                array( 'user_id' => (int) $this->input->post('user_id'),'job_id' => (int) $this->input->post('job_id') )
             );
             if($updated1 && $updated)
             {
+               
+                $data['email_data'] = $this->Admin_Model->get_email_data( array('yh_user_to_jobs.user_id' => $this->input->post('user_id'), 'yh_user_to_jobs.job_id'=>$this->input->post('job_id')));
+            
+                //$data['email'] = $this->emailhandler->sendContactInfo($name,$email,$subject,$email_body);
+                $email = $data['email_data']->email;
+                $subject = 'Job Approval Notification';
+                $job_title = $data['email_data']->job_title;
+                $job_desc = $data['email_data']->job_desc;
+                $email_body = "Your job has been approved by your Admin.<br/><br/>"."Here are the details:<br/><br/><b>Job Title:</b> $job_title<br/><br/><b>Job Description: </b><br/> $job_desc";
+                $data['email'] = $this->email_handler->sendEmail($email,$subject,$email_body); 
+
+                //Send mail 
+                if($data['email'])
+                {
                     $response['message'] = 'Job has been Approved Successfully!';
                     $response['success'] = true;
+                }
+                else 
+                {
+                    $response['message'] = 'Some problem occured during Email Sending!';
+                }
             }
             else $response['message'] = 'Job Approval has been failed!';
-            
             echo json_encode($response);
-            
         }
         
         public function reject_user_job()

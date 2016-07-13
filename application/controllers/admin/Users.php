@@ -21,6 +21,7 @@ class Users extends CI_Controller {
             }
             $this->load->model('admin','Admin_Model');
             $this->load->model('user','User_Model');
+            $this->load->library('email_handler');
         }
         
 	public function index()
@@ -85,7 +86,11 @@ class Users extends CI_Controller {
     public function update()
     {
         $response = array('success'=>false,'message'=>'');
-        if($this->input->post('update')){
+        if($this->input->post('update'))
+            {
+                $record_id = $this->input->post('record_id');
+                $detail = $this->Common_Model->get_single_row(TBL_USERS, array('user_id' => $record_id ) );
+                
                 $this->form_validation->set_rules('grade_id', 'Job Grade', 'trim|required|max_length[11]');
                 $this->form_validation->set_rules('fname', 'First Name', 'trim|required|ucfirst|max_length[30]');
                 $this->form_validation->set_rules('lname', 'Last Name', 'trim|required|max_length[30]');
@@ -110,9 +115,19 @@ class Users extends CI_Controller {
                                 $new_data,
                                 array( 'user_id' => (int) $this->input->post('record_id') )
                         );
-                        if($updated){
-                                $response['message'] = 'Record Updated Successfully';
-                                $response['success'] = true;
+                        if($updated)
+                        {
+                            if($detail->grade_id != $this->input->post('grade_id'))
+                            {
+                                $grades = $this->Common_Model->get_single_row(TBL_GRADES, array('grade_id' => $this->input->post('grade_id') ) );
+                                $email = $this->input->post('email');
+                                $subject = 'Grade Updation Notification';
+                                $grade_name = $grades->grade_name;
+                                $email_body = "Your grade has been updated by your Admin.<br/><br/>"."Here are the details:<br/><br/><b>New job Grade:</b> $grade_name";
+                                $data['email'] = $this->email_handler->sendEmail($email,$subject,$email_body); 
+                            }
+                            $response['message'] = 'Record Updated Successfully';
+                            $response['success'] = true;
                         }
                         else $response['message'] = 'Failed to Update the record !';
                 }

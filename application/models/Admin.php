@@ -46,4 +46,14 @@ class Admin extends CI_Model {
 		return $this->db->get()->result();
 	}
         
+        public function get_email_data($conditions)
+	{
+            $this->db->select('yh_jobs.job_title,yh_jobs.job_desc,yh_users.email');
+            $this->db->from(TBL_USERS_TO_JOBS);
+            $this->db->join('yh_users', 'yh_users.user_id = yh_user_to_jobs.user_id','inner');
+            $this->db->join('yh_jobs', 'yh_jobs.job_id = yh_user_to_jobs.job_id','inner');
+            $this->db->where($conditions);
+            return $this->db->get()->row();
+	}
+        
 }// end of model
