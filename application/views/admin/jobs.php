@@ -70,20 +70,22 @@
 											</div> 
 										</div>
                                                                             <div class="row">
-											<div class="col-sm-6">
-                                                                                            <div class="form-group">
-                                                                                                <label for="deadline_date">Public Attachments</label>
-                                                                                                <div class="uploadify-queue" id="file-queue-public"></div>
-                                                                                                <input type="file" name="userfile" id="upload_btn_public" />
-                                                                                            </div>
-											</div>
-											<div class="col-sm-6">
-												<div class="form-group">
-													<label for="job_desc">Private Attachments</label>
-                                                                                                        <div class="uploadify-queue" id="file-queue-private"></div>
-                                                                                                        <input type="file" name="userfile" id="upload_btn_private" />
-                                                                                              </div>
-											</div> 
+                                                                                <div class="col-sm-6">
+                                                                                    <div class="form-group">
+                                                                                        <label for="deadline_date">Public Attachments</label>
+                                                                                        <div class="uploadify-queue" id="file-queue-public"></div>
+                                                                                        <input type="file" name="userfile" id="upload_btn_public" />
+                                                                                        <a href="javascript:$('#upload_btn_public').uploadify('upload', '*')">Upload the Files</a>
+                                                                                    </div>
+                                                                                </div>
+                                                                                <div class="col-sm-6">
+                                                                                    <div class="form-group">
+                                                                                        <label for="job_desc">Private Attachments</label>
+                                                                                        <div class="uploadify-queue" id="file-queue-private"></div>
+                                                                                        <input type="file" name="userfile" id="upload_btn_private" />
+                                                                                        <a href="javascript:$('#upload_btn_private').uploadify('upload', '*')">Upload the Files</a>
+                                                                                    </div>
+                                                                                </div> 
 										</div>
                                                                                 <div class="row" >
 											<div class="col-sm-6">
@@ -282,9 +284,8 @@ $(document).ready(function() {
   'cancelImage' : '<?php echo base_url() ?>assets/admin/js/lib/uploadify-cancel.png',
   'queueID'  : 'file-queue-private',
   'buttonClass'  : 'button',
-  'buttonText' : "Upload Files",
   'multi'   : true,
-  'auto'   : true,
+  'auto'   : false,
   'fileTypeExts' : '*.jpg; *.png; *.gif; *.PNG; *.JPG; *.GIF; *.pdf; *.docx; *.xlsx; *.pptx;',
   'fileTypeDesc' : 'Image Files',
   'method'  : 'post',
@@ -311,9 +312,9 @@ $(document).ready(function() {
   'cancelImage' : '<?php echo base_url() ?>assets/admin/js/lib/uploadify-cancel.png',
   'queueID'  : 'file-queue-public',
   'buttonClass'  : 'button',
-  'buttonText' : "Upload Files",
   'multi'   : true,
-  'auto'   : true,
+  'auto'   : false,
+  
    'fileTypeExts' : '*.jpg; *.png; *.gif; *.PNG; *.JPG; *.GIF; *.pdf; *.docx; *.xlsx; *.pptx;',
   'fileTypeDesc' : 'Image Files',
   'method'  : 'post',
@@ -321,18 +322,11 @@ $(document).ready(function() {
   'queueSizeLimit': 40,
   'simUploadLimit': 2,
   'sizeLimit'  : 10240000,
-      /*'onUploadSuccess' : function(file, data, response) {
-        alert('The file ' + file.name + ' was successfully uploaded with a response of ' + response + ':' + data);
-   },
-    'onUploadComplete' : function(file) {
-        alert('The file ' + file.name + ' finished processing.');
-   },*/
     'onQueueFull': function(event, queueSizeLimit) {
         alert("Please don't put anymore files in me! You can upload " + queueSizeLimit + " files at once");
         return false;
     }
-    });
-    
+});
 });
 
 </script>
