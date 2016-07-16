@@ -11,6 +11,26 @@ function wait_n_hide(id){
 	},5000);
 }
 
+function changeStatus(url,job_id,user_id)
+{
+    $.ajax({
+            type: "POST",
+            async: false,
+            url: url,
+            data:{job_id: job_id,user_id:user_id},
+            success: function(response) {
+                    response = JSON.parse(response);
+                    if(response.success){
+                            notify_n_hide('success_message_parent',response.message,1);
+
+                    }else
+                            notify_n_hide('error_message_parent',response.message,1);
+            },
+            error : function(response){alert(response.responseText)}
+	});
+	return false;
+}
+
 function notify_n_hide(id, msg, path){
     path = typeof path !== 'undefined' ? path : '';
 	$('#'+id).html(msg).show("slow");
@@ -18,7 +38,7 @@ function notify_n_hide(id, msg, path){
 		$('#'+id).hide("slow");
 		if(path != '')
 		{
-			window.location.reload();
+                    window.location.reload();
 		}
 	},5000);
 	$('body').goTo();

@@ -120,4 +120,18 @@ class User_Jobs extends CI_Controller {
             
             echo json_encode($response);
         }
+
+        public function ammountPaid($user_job_id)
+        {
+            $new_data = array(
+                    'approved'=> '3'
+            );
+
+            $updated=$this->Common_Model->update(TBL_USERS_TO_JOBS,
+                    $new_data,
+                    array( 'id' => $user_job_id)
+            );
+            redirect('admin/User_Jobs/index'); 
+        }
+        
 }

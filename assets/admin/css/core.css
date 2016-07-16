@@ -1203,7 +1203,7 @@ a:focus {
 
 /* Custom CSS by Yousaf Hassan */
 
-.noshow, #success_message, #error_message{
+.noshow, #success_message, #error_message,#success_message_parent, #error_message_parent{
   display: none;
 }
 

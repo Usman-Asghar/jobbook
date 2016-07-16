@@ -12,6 +12,7 @@
             </div>
         </div>
     </section>
+    
     <section class="inner-headings">
         <div class="container text-left">
             <div class="row clearfix">
@@ -30,33 +31,63 @@
             </div>
         </div>
     </section>
-	
+    <div class="alert alert-success alert-dismissable" id="success_message_parent"></div>
+    <div class="alert alert-danger alert-dismissable" id="error_message_parent"></div>
     <section class="inner-full-cont">
         <div class="container">
             <div class="row clearfix">
                 <div class="col-md-12 full-width-area">
 					
                     <div id="tab-container" class="tab-container animated" data-animation="fadeInUp" data-animation-delay="100">
-					<?php if($already_applied): ?>
-                                <?php if($jobs->approved==1): ?>
-									<div class="alert alert-success">You are hired for this job</div>
-                                <?php else: ?>
-									<div class="alert alert-warning">You have already applied to this job</div>
-								<?php endif; ?>
-					<?php endif; ?>
+                                <?php 
+                                if($already_applied)
+                                {
+                                ?>
+                                <?php 
+                                    if($jobs->approved==1)
+                                    { 
+                                ?>
+                                    <div class="alert alert-success">You are hired for this job</div>
+                                <?php 
+                                
+                                    }
+                                    else if($jobs->approved==2)
+                                    { 
+                                    ?>
+                                    <div class="alert alert-success">You have done with this job</div>
+                                <?php 
+                                    } 
+                                    else
+                                    { 
+                                ?>
+                                    <div class="alert alert-warning">You have already applied to this job</div>
+                                <?php 
+                                    }
+                                
+                                } ?>
+                              
                         <div class="panel-container">
                             <div class="tab-cont">
                                 <ul class="info-list clearfix">
-                                    
-									<li>
+                                    <li>
                                         <label><i class="fi-calendar"></i> Posted on</label> <span><?=date('M-d-Y', strtotime(str_replace('-','/', $jobs->date_entered)));?></span>
                                     </li>
                                     <li>
-                                        <label><i class="fi-database"></i> Status</label> <?php if($jobs->job_status == 1){ echo '<span class="info-btn">Active</span>'; } else { echo '<span class="info-btn">Inactive</span>'; }?>
+                                        <label><i class="fi-database"></i> Job Status</label> <?php if($jobs->approved == 1){ echo '<span class="info-btn">Hired</span>'; } else if($jobs->approved == 2){echo '<span class="info-btn">Closed</span>';}else { echo '<span class="info-btn">Pending</span>'; }?>
                                     </li>
                                     <li>
                                         <label><i class="fi-calendar"></i> Deadline</label> <span><?=date('M-d-Y', strtotime(str_replace('-','/', $jobs->deadline_date)));?></span>
                                     </li>
+                                    <?php 
+                                    if($jobs->approved==1)
+                                    {
+                                    ?>
+                                     <li>
+                                         <button class="btn btn-primary" onclick="changeStatus('<?=base_url('jobs/close_user_job');?>',<?=$jobs->job_id;?>,<?=$this->session->userdata('user_id')?>)">Close Job</button>
+                                    </li>
+                                    <?php
+                                    }         
+                                    ?>
                                 </ul>
                             </div>
                         </div>
@@ -73,7 +104,7 @@
                     </div>                    
                     <ul class="job-listings">
                         <?php if(!$public_attachments): ?>
-                            <li style="color:#a94442;font-size: 24px;">No Jobs Available!</li>
+                            <li style="color:#a94442;font-size: 24px;">No Attachments Available!</li>
                         <?php endif; ?>
                         <?php foreach($public_attachments as $public_files): ?>
                         <li class="animated" data-animation="fadeInUp" data-animation-delay="100">
@@ -85,14 +116,14 @@
                         <?php endforeach; ?>
                     </ul>
                 </div>
-                <?php if($already_applied && $jobs->approved==1): ?>
+                <?php if($already_applied && ($jobs->approved==1 || $jobs->approved==2)): ?>
                 <div class="col-md-12 job-listing-full">
                     <div class="job-list-head clearfix animated" data-animation="fadeInUp" data-animation-delay="100">
                         <div class="title-big">Private Attachments</div>
                     </div>                    
                     <ul class="job-listings">
                         <?php if(!$private_attachments): ?>
-                            <li style="color:#a94442;font-size: 24px;">No Jobs Available!</li>
+                            <li style="color:#a94442;font-size: 24px;">No Attachments Available!</li>
                         <?php endif; ?>
                         <?php foreach($private_attachments as $private_files): ?>
                         <li class="animated" data-animation="fadeInUp" data-animation-delay="100">

@@ -207,6 +207,7 @@
 											<th>Start Date</th>
 											<th>End Date</th>
 											<th>Actions</th>
+                                                                                        <th>Applicants</th>
 										</tr>
 									</thead>
 									<tbody>
@@ -230,6 +231,7 @@
 													<i class="fa fa-close"></i>
 												</a>
 											</div>
+                                                                                        <td><a href="<?=base_url('admin/jobs/applicants/'.$job->job_id.'')?>">Job Applicants</a></td>
 											</td>
 										</tr>
 										<?php $count++; endforeach; ?>

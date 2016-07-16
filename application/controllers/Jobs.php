@@ -49,7 +49,7 @@ class jobs extends CI_Controller {
 		echo $this->pagination->create_links();
                 $data['page_title'] = 'Jobs Dashboard';
                 $config['base_url'] = base_url().'/jobs/applied_jobs/page';
-                $config['total_rows'] = $this->User_Model->get_user_applied_jobs_count(array('yh_jobs.grade_id' => $this->session->userdata('grade_id')),0,$this->session->userdata('user_id'));
+                $config['total_rows'] = $this->User_Model->count_get_user_applied_jobs(array('yh_user_to_jobs.user_id'=>$this->session->userdata('user_id')));
                 $config['per_page'] = 5;
                 $config['num_tag_open'] = '<li>';
                 $config['num_tag_close'] = '</li>';
@@ -57,7 +57,7 @@ class jobs extends CI_Controller {
                 $config['cur_tag_close'] = '<li>';
                 $this->pagination->initialize($config);
                 $page = ($this->uri->segment(4)) ? $this->uri->segment(4) : 0;
-                $data['jobs'] = $this->User_Model->get_user_applied_jobs(array('yh_user_to_jobs.user_id'=>$this->session->userdata('user_id'),'yh_jobs.grade_id' => $this->session->userdata('grade_id')),0,$this->session->userdata('user_id'),$config["per_page"],$page);
+                $data['jobs'] = $this->User_Model->get_user_applied_jobs(array('yh_user_to_jobs.user_id'=>$this->session->userdata('user_id')),$config["per_page"],$page);
                 $data['pagination'] = $this->pagination->create_links();
                 $data['status'] = 5;
                 $this->load->front_template('applied_jobs',$data);
@@ -66,8 +66,15 @@ class jobs extends CI_Controller {
         public function job_apply($job_id)
 	{	
             $data['page_title'] = 'Single Job';
-            $data['jobs'] = $this->User_Model->get_single_job($job_id);
             $data['already_applied'] = $this->User_Model->already_applied(array('job_id'=>$job_id, 'user_id'=>$this->session->userdata('user_id')));
+            if($data['already_applied'])
+            {
+                $data['jobs'] = $this->User_Model->get_single_job(array('yh_jobs.job_id'=>$job_id, 'user_id'=>$this->session->userdata('user_id')));
+            }
+            else
+            {
+                $data['jobs'] = $this->User_Model->get_single_job(array('yh_jobs.job_id'=>$job_id));
+            }
             $data['public_attachments'] = $this->User_Model->get_public_attachments(array('is_public' => '1','job_id'=>$job_id));
             $data['private_attachments'] = $this->User_Model->get_public_attachments(array('is_public' => '0','job_id'=>$job_id));
             $this->load->front_template('single',$data);
@@ -208,5 +215,24 @@ class jobs extends CI_Controller {
 		redirect('user-login');
 	}
 	
+        public function close_user_job()
+        {
+            $response = array('success'=>false,'message'=>'');
+            $new_data = array(
+                'approved'=> '2'
+            );
+
+            $updated=$this->Common_Model->update(TBL_USERS_TO_JOBS,
+                $new_data,
+                array( 'user_id' => (int) $this->input->post('user_id'),'job_id' => (int) $this->input->post('job_id') )
+            );
+            if($updated)
+            {
+                $response['message'] = 'Job has been Closed Successfully!';
+                $response['success'] = true;
+            }
+            else $response['message'] = 'Job Closing has been failed!';
+            echo json_encode($response);
+        }
 	
 }

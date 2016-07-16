@@ -17,11 +17,6 @@ class Login extends CI_Controller {
 			exit();
 		}
     }
-	 
-	public function index()
-	{
-		$this->load->view('login');
-	}
 	
 	public function validate()
 	{

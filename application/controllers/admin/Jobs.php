@@ -19,6 +19,8 @@ class Jobs extends CI_Controller {
 			redirect('admin-login');
 			exit();
 		}
+    
+                $this->load->model('admin','Admin_Model');
     }
 	 
 	public function index()
@@ -40,4 +42,14 @@ class Jobs extends CI_Controller {
                 $data['status'] = 5;
 		$this->load->admin_template('calendar_view',$data);
 	}
+        
+        public function applicants($job_id)
+        {
+
+            $data['page_title'] = 'Applicants';
+            $data['jobs'] = $this->Admin_Model->get_user_jobs_by_job_id( array('yh_jobs.job_status' => '1', 'yh_jobs.admin_id'=>$this->session->userdata('admin_id'),'yh_user_to_jobs.job_id'=>$job_id) );
+            $data['grades'] = $this->Admin_Model->get_all_grades(array('grade_status' => '1'));
+            $data['status'] = 4;
+            $this->load->admin_template('applicants',$data);
+        } 
 }

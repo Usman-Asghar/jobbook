@@ -18,7 +18,7 @@
                                                 <div class="panel panel-default">
                                                     <div class="panel-heading">
                                                         <h3 class="panel-title">
-                                                            User Jobs
+                                                            Job Applicants
                                                         </h3>                                        
                                                     </div>
 
@@ -84,8 +84,8 @@
                                                                                                 <input type="hidden" name="cn" value="Add special instructions to the seller:">
                                                                                                 <input type="hidden" name="no_shipping" value="2">
                                                                                                 <input type="hidden" name="rm" value="1">
-                                                                                                <input type="hidden" name="return" value="<?=base_url('admin/user_jobs/ammountPaid/'.$job->id.'');?>">
-                                                                                                <input type="hidden" name="cancel_return" value="<?=base_url('admin/user_jobs');?>">
+                                                                                                <input type="hidden" name="return" value="<?=base_url();?>/admin/user_jobs/ammountPaid/1">
+                                                                                                <input type="hidden" name="cancel_return" value="<?=base_url();?>/admin/user_jobs">
                                                                                                 <input type="hidden" name="currency_code" value="USD">
                                                                                                 <input type="hidden" name="bn" value="PP-DonationsBF:btn_donate_SM.gif:NonHosted">
                                                                                                 <input type="image" src="https://www.paypalobjects.com/webstatic/en_US/btn/btn_paynow_107x26.png" border="0" name="submit" alt="PayPal - The safer, easier way to pay online!">

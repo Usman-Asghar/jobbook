@@ -2056,7 +2056,7 @@ ul.time-iconed li:before {
 .contact-address address span {
     display: inline-table
 }
-.noshow, #success_message, #error_message {
+.noshow, #success_message, #error_message,#success_message_parent, #error_message_parent{
     display: none;
 }
 @media (max-width: 1400px) {

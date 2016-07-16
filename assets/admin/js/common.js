@@ -36,7 +36,7 @@ function notify_n_hide(id, msg, path){
 		$('#'+id).hide("slow");
 		if(path != '')
 		{
-			window.location.reload();
+                    window.location.reload();
 		}
 	},5000);
 	$('body').goTo();

@@ -55,12 +55,13 @@ class User extends CI_Model {
             }   
 	}
 	
-	public function already_applied($conditions){
-		$this->db->select('*');
-                 $this->db->from(TBL_USERS_TO_JOBS);
-		$this->db->where($conditions);
-		$rows = $this->db->count_all_results();
-		return $rows ? true : false;
+	public function already_applied($conditions)
+        {
+            $this->db->select('*');
+            $this->db->from(TBL_USERS_TO_JOBS);
+            $this->db->where($conditions);
+            $rows = $this->db->count_all_results();
+            return $rows ? true : false;
 	}
         public function get_user_jobs_after_applied($conditions,$job_id,$user_id,$limit=0, $start=0)
         {
@@ -74,17 +75,16 @@ class User extends CI_Model {
             return  $this->db->get()->row();      
 	}
         
-        public function get_user_applied_jobs_count($conditions,$job_id,$user_id){
+        public function count_get_user_applied_jobs($conditions){
             $this->db->select('yh_grades.*,yh_jobs.*,yh_user_to_jobs.*');
             $this->db->from(TBL_JOBS);
             $this->db->join('yh_grades', 'yh_grades.grade_id = yh_jobs.grade_id','left');
             $this->db->join('yh_user_to_jobs', 'yh_user_to_jobs.job_id = yh_jobs.job_id','left');
             $this->db->where($conditions);
-            $q = $this->db->where("yh_user_to_jobs.approved!='0' OR yh_user_to_jobs.rejected!='0'");
-            return $q->count_all_results();
+            return $this->db->count_all_results();
 	}
         
-        public function get_user_applied_jobs($conditions,$job_id,$user_id,$limit, $start)
+        public function get_user_applied_jobs($conditions,$limit, $start)
         {
             $this->db->limit($limit, $start);
             $this->db->select('yh_grades.*,yh_jobs.*,yh_user_to_jobs.*');
@@ -102,13 +102,14 @@ class User extends CI_Model {
                 $this->db->where($conditions);
 		return $this->db->get()->result();
 	}
-        public function get_single_job($job_id)
+        
+        public function get_single_job($conditions)
         {
             $this->db->select('yh_grades.*,yh_jobs.*,yh_user_to_jobs.approved');
             $this->db->from(TBL_JOBS);
             $this->db->join('yh_grades', 'yh_grades.grade_id = yh_jobs.grade_id','left');
             $this->db->join('yh_user_to_jobs', 'yh_user_to_jobs.job_id = yh_jobs.job_id','left');
-            $this->db->where(array('yh_jobs.job_id'=>$job_id));
+            $this->db->where($conditions);
             return  $this->db->get()->row();      
 	}
         
