@@ -77,7 +77,7 @@
                                                                                             ?>
                                                                                             <form action="https://www.sandbox.paypal.com/cgi-bin/webscr" method="post" target="_top">
                                                                                                 <input type="hidden" name="cmd" value="_donations">
-                                                                                                <input type="hidden" name="business" value="albert.maya7-buyer@gmail.com">
+                                                                                                <input type="hidden" name="business" value="<?=$job->email?>">
                                                                                                 <input type="hidden" name="lc" value="US">
                                                                                                 <input type="hidden" name="item_name" value="<?=$job->job_title?>">
                                                                                                 <input type="hidden" name="no_note" value="0">
@@ -92,6 +92,10 @@
                                                                                                 <img alt="" border="0" src="https://www.sandbox.paypal.com/en_US/i/scr/pixel.gif" width="1" height="1">
                                                                                             </form>
                                                                                             <?php
+                                                                                            }
+                                                                                            else if($job->approved == 3)
+                                                                                            {
+                                                                                                echo '<span style="color:#33b86c;">Paid</span>';
                                                                                             }
                                                                                             else
                                                                                             {
