@@ -45,6 +45,8 @@
                     </li>
                     <li><a href="<?=  base_url('jobs/applied_jobs')?>" <?php if(isset($status)){if($status==5){echo "class='active'";}} ?>>Applied Jobs</a>
                     </li>
+                    <li><a href="<?=  base_url('chats')?>" <?php if(isset($status)){if($status==6){echo "class='active'";}} ?>>Chat</a>
+                    </li>
                     <!--<li><a href="<?=  base_url('main/profile')?>" >Profile</a>
                     </li>-->
                     <li><a href="<?=  base_url('main/logout')?>">Logout</a>

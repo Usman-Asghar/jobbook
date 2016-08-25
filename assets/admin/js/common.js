@@ -171,7 +171,7 @@ setInterval(function(){ getJobsAppliedCount(); }, 10000);
 function getJobsAppliedCount()
 {
     $.ajax({
-        url : global.base_url+'admin/user_jobs/getUserAppliedCount',
+        url : global.base_url+'admin/User_Jobs/getUserAppliedCount',
         type: "POST",
         async: true,
         success: function(response){

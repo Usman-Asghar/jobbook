@@ -29,9 +29,9 @@
                             <li>
                                 <a href="<?=base_url('admin/users')?>" class="waves-effect waves-light <?php if(isset($status)){if($status==2){echo 'active';}} ?>"><i class="md md-group"></i><span> Engineers </span></a>
                             </li>
-                            <!---<li>
+                            <!--<li>
                                 <a href="<?=base_url('admin/grades')?>" class="waves-effect waves-light <?php if(isset($status)){if($status==3){echo 'active';}} ?>"><i class="md md-home"></i><span> Grades </span></a>
-                            </li>--->
+                            </li>-->
                             <li>
                                 <a href="<?=base_url('admin/jobs')?>" class="waves-effect waves-light <?php if(isset($status)){if($status==4){echo 'active';}} ?>"><i class="md md-work"></i> Jobs </a>
                             </li>
@@ -40,6 +40,9 @@
                             </li>
                             <li>
                                 <a href="<?=base_url('admin/user_jobs')?>" class="waves-effect waves-light <?php if(isset($status)){if($status==6){echo 'active';}} ?>"><i class="md md-work"></i> Applied Jobs </a>
+                            </li>
+                            <li>
+                                <a href="<?=base_url('admin/chats')?>" class="waves-effect waves-light <?php if(isset($status)){if($status==7){echo 'active';}} ?>"><i class="md md-mail"></i><span> Chat </span></a>
                             </li>
                             <!--
                             <li class="has_sub">
