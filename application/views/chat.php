@@ -45,7 +45,7 @@
                             <div class="col-xs-12">
                                 <strong><?php echo (!$chat->is_admin) ? $chat->fname . ' ' . $chat->lname : 'Admin' ?>: </strong>
                                 <span class="pull-right"><?php echo date('d-m-Y h:i A', strtotime($chat->message_time)); ?></span>
-                                <span><?php echo $chat->message; ?></span>
+                                <span style="word-break: break-word;"><?php echo $chat->message; ?></span>
                             </div>
                         </div>
                         <?php endforeach;
@@ -120,7 +120,7 @@ function getScripts()
                 alert(response.message);
                 if(response.success) {
                     var message = $("#msg").val();
-                    $("#conversation").html($("#conversation").html() + \'<div class="row"><div class="col-xs-12"><strong>'.$ci->session->userdata('name').': </strong><span class="pull-right">Just Now</span><span>\'+ message +\'</span></div></div>\');
+                    $("#conversation").html($("#conversation").html() + \'<div class="row"><div class="col-xs-12"><strong>'.$ci->session->userdata('name').': </strong><span class="pull-right">Just Now</span><span style="word-break: break-word;">\'+ message +\'</span></div></div>\');
                     $("#msg").val("");
                 }
             },
@@ -129,6 +129,7 @@ function getScripts()
             }
         });
     });
+    setInterval(function(){ if($("#msg").val() == ""){location.reload();} }, 20000);
 </script>';
 
     $content = ob_get_contents();
