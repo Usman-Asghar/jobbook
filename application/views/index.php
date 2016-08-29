@@ -7,8 +7,8 @@
                     </li>
                     <li><img src="<?=assets_url('user/img/banner-01.jpg');?>" alt="">
                     </li>
-                    <li><img src="<?=assets_url('user/img/banner-03.jpg');?>" alt="">
-                    </li>
+                    <!--<li><img src="<?=assets_url('user/img/banner-03.jpg');?>" alt="">
+                    </li>-->
                 </ul>
             </div>
             <div class="banner-cont-wrapper">
@@ -41,7 +41,7 @@
                         </a>
                     </div>
                     <div class="banner-conts">
-                        <h1>DreamJobs</h1>
+                        <h1><?php echo SITE_TITLE; ?></h1>
                         <h2>creative professionals</h2>
                         <p class="medium">Posting a job is a fantastic, simple way to reach talented web and creative professionals and until further notice it's entirely free! </p>
                        
@@ -87,7 +87,8 @@
         </section>
         <section class="how-it-works">
             <div class="container">
-                <h3 class="animated" data-animation="fadeInUp" data-animation-delay="100">How JobHunt Work?</h3>
+                <h3 class="animated" data-animation="fadeInUp" data-animation-delay="100">How <?php echo SITE_TITLE; ?>
+                 Work?</h3>
                 <h5 class="uppercase animated" data-animation="fadeInUp" data-animation-delay="200">if you purchase this psd you will get happy &amp; hurry up</h5>
                 <hr class="animated" data-animation="fadeInUp" data-animation-delay="300">
                 <br>
@@ -99,7 +100,7 @@
         <section class="happy-campers-main">
             <div class="container">
                 <h3 class="animated" data-animation="fadeInUp" data-animation-delay="100">Happy Campers</h3>
-                <h5 class="uppercase animated" data-animation="fadeInUp" data-animation-delay="200">What other people thought about the service provided by jobhunt</h5>
+                <h5 class="uppercase animated" data-animation="fadeInUp" data-animation-delay="200">What other people thought about the service provided by <?php echo SITE_TITLE; ?></h5>
                 <hr>
                 <div class="testimonial-main">
                     <div id="test1" class="testimonial-single animated" data-animation="fadeInUp" data-animation-delay="100">
@@ -160,7 +161,7 @@
                 </div>
                 <ul class="campers-all">
                     <li class="animated" data-animation="flipInY" data-animation-delay="100">
-                        <a href="#test1"><img src="<?=assets_url('user/img/laptop-img.png');?>" alt="">
+                        <a href="#test1"><img src="<?=assets_url('user/img/prof-02.jpg');?>" alt="">
                         </a>
                     </li>
                     <li class="animated" data-animation="flipInY" data-animation-delay="200">

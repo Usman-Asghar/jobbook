@@ -19,7 +19,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 define('AJAX_ACCESS_ERR', 'No direct access allowed');
 define('ADMIN_DIR', 'admin/');
 define('CURRENCY', '$');
-define('SITE_TITLE', 'Job Book');
+define('SITE_TITLE', 'Job Portal');
 
 // DB Tables
 define('TBL_ADMIN','admin');

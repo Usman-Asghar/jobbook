@@ -12,7 +12,7 @@
                    </ul>
                </div>
                <div class="col-md-10 footer-conts">
-                   <h3 class="animated" data-animation="fadeInUp" data-animation-delay="100">JobHunt is currently free!</h3>
+                   <h3 class="animated" data-animation="fadeInUp" data-animation-delay="100"><?php echo SITE_TITLE; ?> is currently free!</h3>
                    <h5 class="uppercase animated" data-animation="fadeInUp" data-animation-delay="200">All job listings will be free of charge until further notice.</h5>
                    <hr class="animated" data-animation="fadeInUp" data-animation-delay="300">
                    <br>
@@ -35,7 +35,7 @@
                        <li><a href="#">POLICY</a>
                        </li>
                    </ul>
-                   <p class="animated" data-animation="fadeInUp" data-animation-delay="200">&copy; 2015 <a href="#">JobHunt</a>. All Rights Reserved </p>
+                   <p class="animated" data-animation="fadeInUp" data-animation-delay="200">&copy; 2015 <a href="#"><?php echo SITE_TITLE; ?></a>. All Rights Reserved </p>
                </div>
            </div>
        </div>

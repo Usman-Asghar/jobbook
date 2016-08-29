@@ -2061,10 +2061,13 @@ ul.time-iconed li:before {
 }
 @media (max-width: 1400px) {
     .header-area {
-        padding: 60px 0 75px
+        padding: 60px 0 75px;
     }
     .logo-area {
         padding-top: 30px
+    }
+    .logo-area img{
+        width:150px;
     }
     .banner-conts {
         padding: 80px 0 0
